@@ -54,7 +54,6 @@ int main()
 	root->left->left = create_node(4);
 	root->right->left = create_node(5);
 	root->right->right = create_node(6);
-	root->right->right = create_node(33);   
 	root->right->right->right = create_node(34);
 	root->right->right->right->right = create_node(35);
 	root->right->right->right->right->right = create_node(36);
