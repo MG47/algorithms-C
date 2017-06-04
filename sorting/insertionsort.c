@@ -27,7 +27,6 @@ struct data *create_data(int val)
 	return d;
 }
 
-
 void print_array(struct data *d)
 {
 	if (!d) {
@@ -48,7 +47,6 @@ void print_array(struct data *d)
 	}
 }
 
-
 int insert_data(struct data **d, int val)
 {
 	struct data *data = *d;
@@ -64,8 +62,8 @@ int insert_data(struct data **d, int val)
 		exit(EXIT_FAILURE);
 
 	data->arr = new_arr;
-
 	data->arr[(data->len) - 1] = val;
+
 	return 0;
 }
 
@@ -112,19 +110,17 @@ int remove_data(struct data **d, int val)
 
 int insertionsort(struct data *d)
 {
-
-	int cur, cur_val, j;
+	int i, cur_val, j;
 	if (!d)
 		return -1;
 
 	if (!d->arr)
 		return -1;
 
-	for (cur = 1; cur < d->len; cur++) {
-		cur_val = d->arr[cur];
-		j = cur - 1;
-
-		while (cur >= 0 && d->arr[cur] < d->arr[j]) {
+	for (i = 1; i < d->len; i++) {
+		cur_val = d->arr[i];
+		j = i - 1;
+		while (j >= 0 && d->arr[j] > cur_val) {
 			d->arr[j + 1] = d->arr[j];
 			j--;
 		}
@@ -133,10 +129,9 @@ int insertionsort(struct data *d)
 	return 0;
 }
 
-
 int main()
 {
-	printf("\nMergesort\n\n");
+	printf("Insertionsort\n\n");
 
 	int option;
 	struct data *d = NULL;
