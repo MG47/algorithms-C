@@ -7,6 +7,8 @@
 #include <string.h>
 #include <errno.h>
 
+#define ASCII_SIZE 256
+
 int unique_characters(char *str)
 {
 	int *val;
@@ -14,7 +16,7 @@ int unique_characters(char *str)
 	if (!str || (*str) == '\n')
 		return 0;
 
-	val = calloc(256, sizeof(int));
+	val = calloc(ASCII_SIZE, sizeof(int));
 	if (!val)
 		exit(EXIT_FAILURE);
 

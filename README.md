@@ -1,4 +1,5 @@
-# algorithms-C
+algorithms-C
+==============
 
 A compilation of algorithms in C.
 

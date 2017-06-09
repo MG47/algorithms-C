@@ -41,7 +41,7 @@ int is_anagram(char *str1, char *str2)
 
 int main()
 {
-	printf("Check if a string has unique characters\n");
+	printf("Check if two strings are anagrams\n");
 	char *str1 = NULL, *str2 = NULL;
 	size_t len;
 	int i = 0;
