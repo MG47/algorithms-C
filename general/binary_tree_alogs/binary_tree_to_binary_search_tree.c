@@ -1,55 +1,124 @@
-/* Binary Tree to Binary Search Tree Conversion */
-/* INCOMPLETE */
+/* 
+* Binary Tree to Binary Search Tree Conversion 
+* Original Structure of the tree is preserved 
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
 
 struct node {
 	int data;
-	struct node *left;
+	struct node *left; 
 	struct node *right;
 };
 
-int main()
+struct node *create_node(int data)
 {
-	printf("\nBinary Tree to Binary Search Tree Conversion\n\n");
+	struct node *temp = malloc(sizeof(struct node));
+	temp->data = data;
+	temp->left = temp->right = NULL;
+	return temp;
+}
 
-	int option;
-	struct interval_table *int_table = NULL;
-	int_table = create_interval_table(10);
+void print_inorder(struct node *n)
+{
+	if (!n)
+		return;
 
-	while (1) {
-		printf("\nEnter the option number:\n");
-		printf("1. Create Interval \n");
-		printf("2. Merge Intervals \n");
-		printf("3. Print Intervals \n");
-		printf("4. Exit\n");
-		printf("\n\n");
+	print_inorder(n->left);
+	printf(" %d", n->data);
+	print_inorder(n->right);
+}
 
-		printf("Enter the option number: ");
-		scanf("%d", &option);
-		int data1, data2, position;
+int count_nodes(struct node *root)
+{
+	int left_count, right_count;
+	if (!root)
+		return 0;
+	right_count = count_nodes(root->left);
+	left_count = count_nodes(root->right);
+	return (left_count + 1 + right_count);
+}
 
-		switch (option) {
-		case 1:
-			printf("Enter Start of Interval: ");
-			scanf("%d", &data1);
-			printf("Enter End of Interval: ");
-			scanf("%d", &data2);
-			create_interval(int_table, data1, data2);
-			break;
-		case 2:
-			merge_intervals(int_table);
-		case 3:
-			print_intervals(int_table);
-			break;
-		case 4:
-			exit(EXIT_SUCCESS);
-			break;
-		default:
-			printf("Invalid Option\n");
+void store_inorder(int *arr, int *index, struct node *root)
+{	
+	if (!root)
+		return;
+
+	store_inorder(arr, index, root->left);
+	arr[*index] = root->data;
+	(*index)++;
+	store_inorder(arr, index, root->right);
+}
+
+int bubblesort(int *arr, int len)
+{
+	int i, j, temp;
+
+	for (i = 0; i < len - 1; i++) {
+		for (j = 0; j < len - i - 1; j++) {
+			if (arr[j] > arr[j + 1]) {
+				temp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = temp;
+			}
 		}
 	}
+	return 0;
+}
+
+void array_to_bst(int *arr, int *index, struct node *root)
+{
+	if (!root)
+		return;
+
+	array_to_bst(arr, index, root->left);
+	root->data = arr[*index];
+	(*index)++;
+	array_to_bst(arr, index, root->right);
+}
+
+struct node *binary_tree_to_bst(struct node *root)
+{
+	int len, *arr, index;
+	if (!root)
+		return NULL;
+
+	len = count_nodes(root);
+	arr = malloc(sizeof(int) * len);
+	if (!arr)
+		exit(EXIT_FAILURE);
+
+	index = 0;
+	store_inorder(arr, &index, root);
+
+	bubblesort(arr, len);
+
+	index = 0;
+	array_to_bst(arr, &index, root);
+	return root;
+}
+
+int main()
+{
+	int ans;
+	struct node *root = NULL;
+
+	root = create_node(12);
+	root->left = create_node(2);
+	root->right = create_node(7);
+	root->left->left = create_node(4);
+	root->left->right = create_node(1);
+
+		print_inorder(root);
+		printf("\n\n");
+
+	root = binary_tree_to_bst(root);
+	if (root) {
+		printf("Binary Search Tree inorder:\n");
+		print_inorder(root);
+		printf("\n\n");
+	} 
 	return 0;
 }
 
