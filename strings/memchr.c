@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdint.h>
 
 void *memchr_custom(void *mem, int c, size_t n)

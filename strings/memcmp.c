@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdint.h>
 
 int memcmp_custom(void *s1, void *s2, size_t n)

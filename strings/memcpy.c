@@ -5,7 +5,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdint.h>
 
 void *memcpy_custom(void *dest, void *src, size_t n)
