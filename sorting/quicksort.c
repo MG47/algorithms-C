@@ -1,6 +1,5 @@
 /*
 * Quicksort
-* INCOMPLETE
 */
 
 #include <stdio.h>
@@ -27,7 +26,6 @@ struct data *create_data(int val)
 	return d;
 }
 
-
 void print_array(struct data *d)
 {
 	if (!d) {
@@ -48,7 +46,6 @@ void print_array(struct data *d)
 	}
 }
 
-
 int insert_data(struct data **d, int val)
 {
 	struct data *data = *d;
@@ -64,7 +61,6 @@ int insert_data(struct data **d, int val)
 		exit(EXIT_FAILURE);
 
 	data->arr = new_arr;
-
 	data->arr[(data->len) - 1] = val;
 	return 0;
 }
@@ -112,20 +108,20 @@ int remove_data(struct data **d, int val)
 
 int partition(int *arr, int left, int right)
 {
-	int i, j, pivot;
+	int pivot = arr[right];
+	int i = (left - 1), j, temp;
 
-	i = left - 1;
-	pivot = arr[right];
 	for (j = left; j <= right - 1; j++) {
 		if (arr[j] <= pivot) {
-			int temp = arr[j];
-			arr[j] = arr[right];
-			arr[right] = temp;
+			i++;
+			temp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = temp;
 		}
 	}
-	int temp = arr[i + 1];
+	temp = arr[i + 1];
 	arr[i + 1] = arr[right];
-	arr[right] = temp;	
+	arr[right] = temp;
 	return (i + 1);
 }
 
@@ -134,14 +130,13 @@ void do_sort(int *arr, int left, int right)
 	if (left < right) {
 		int p_index;
 		p_index = partition(arr, left, right);
-		do_sort(arr, 0, p_index - 1);
+		do_sort(arr, left, p_index - 1);
 		do_sort(arr, p_index + 1, right);
 	}
 }
 
 int quicksort(struct data *d)
 {
-
 	if (!d)
 		return -1;
 
@@ -152,7 +147,6 @@ int quicksort(struct data *d)
 
 	return 0;
 }
-
 
 int main()
 {
