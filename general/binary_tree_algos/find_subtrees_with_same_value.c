@@ -43,7 +43,7 @@ int find_subtrees(struct node *root, int *count)
 
 int find_same_value_subtrees(struct node *root)
 {
-	int count;
+	int count = 0;
 	find_subtrees(root, &count);
 	return count;
 }
