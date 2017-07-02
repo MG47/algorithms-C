@@ -1,5 +1,5 @@
 /*
-* Program to detect and remove loop in linked list
+* Program to detect and remove loop in a singly linked list
 */
 
 #include <stdio.h>
@@ -7,7 +7,6 @@
 
 struct node {
 	struct node *next;
-	struct node *prev;
 	int data;
 };
 
@@ -18,7 +17,6 @@ struct node *create_node(int data)
 	if (!new)
 		exit(EXIT_FAILURE);
 	new->next = NULL;
-	new->prev = NULL;
 	new->data = data;
 	return new;
 }

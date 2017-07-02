@@ -1,6 +1,7 @@
 /* 
-* Reverse a singly linked list
-*/
+* Program to delete any middle node (any node except first and last) in a singly linked list,
+* given only access to that node (HEAD pointer is not given)
+*/ 
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,31 +50,38 @@ void print_linked_list(struct node *head)
 	printf("(tail)\n");
 }
 
-int reverse_list(struct node **head)
+void delete_node(struct node *del_node)
 {
-	struct node *cur, *prev, *next;
-	cur = *head;
-	prev = NULL;
-	while (cur) {
-		next = cur->next;
-		cur->next = prev;
-		prev = cur;
-		cur = next;
-	}
-	*head = prev;
+	struct node *next_node;
+	if (!del_node || !del_node->next)
+		return;
+
+	/* Copy next node to current node and free next node */
+	next_node = del_node->next;
+	del_node->data = next_node->data;
+	del_node->next = next_node->next;
+	free(next_node);
 }
 
 int main()
 {
-	struct node *head = NULL;
+	struct node* head = NULL;
+
+	insert_at_head(&head, 20);
 	insert_at_head(&head, 4);
-	insert_at_head(&head, 5);
-	insert_at_head(&head, 2);
-	insert_at_head(&head, 9);
-	insert_at_head(&head, 1);
+	insert_at_head(&head, 12);
+	insert_at_head(&head, 15);
+	insert_at_head(&head, 7);
+	insert_at_head(&head, 10);
+
+	printf("List 1: \n");
 	print_linked_list(head);
-	reverse_list(&head);
+
+	struct node *del_node = head->next->next;
+	delete_node(del_node);
+
 	print_linked_list(head);
+
 	return 0;
 }
 

@@ -1,6 +1,6 @@
 /* 
-* Reverse a singly linked list
-*/
+* Remove duplicates nodes of a singly linked list
+*/ 
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,31 +49,45 @@ void print_linked_list(struct node *head)
 	printf("(tail)\n");
 }
 
-int reverse_list(struct node **head)
+void remove_duplicate_nodes(struct node *head)
 {
-	struct node *cur, *prev, *next;
-	cur = *head;
-	prev = NULL;
+	struct node *cur, *runner, *temp;
+	if (!head)
+		return;
+
+	cur = head;
 	while (cur) {
-		next = cur->next;
-		cur->next = prev;
-		prev = cur;
-		cur = next;
+		runner = cur;
+		while (runner) {
+			if (runner->next->data == cur->data) {
+				temp = runner->next;
+				runner->next = temp->next;
+				free(temp);
+			}
+			runner = runner->next;
+		}	
+		cur = cur->next;
 	}
-	*head = prev;
 }
 
 int main()
 {
-	struct node *head = NULL;
+	struct node* head = NULL;
+
+	insert_at_head(&head, 20);
 	insert_at_head(&head, 4);
-	insert_at_head(&head, 5);
-	insert_at_head(&head, 2);
-	insert_at_head(&head, 9);
-	insert_at_head(&head, 1);
+	insert_at_head(&head, 15);
+	insert_at_head(&head, 15);
+	insert_at_head(&head, 4);
+	insert_at_head(&head, 20);
+
+	printf("List 1: \n");
 	print_linked_list(head);
-	reverse_list(&head);
+
+	remove_duplicate_nodes(head);
+
 	print_linked_list(head);
+
 	return 0;
 }
 
