@@ -39,6 +39,7 @@ char *itoa_custom(int64_t num)
 		num *= sign;
 	}
 
+/* TODO: check if num is 0 */
 	i = 0;
 	while (num) {
 		dec = num % 10;

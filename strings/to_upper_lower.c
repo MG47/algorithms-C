@@ -7,13 +7,15 @@
 #include <string.h>
 #include <errno.h>
 
+#define CASE_OFFSET 32
+
 void to_lowercase(char *str)
 {
 	if (!str)
 		return;
 	while (*str) {
-		if (*str > 'A' && *str < 'Z')
-			*str += 32; 
+		if (*str >= 'A' && *str <= 'Z')
+			*str += CASE_OFFSET; 
 		str++;
 	}
 }
@@ -23,8 +25,8 @@ void to_uppercase(char *str)
 	if (!str)
 		return;
 	while (*str) {
-		if (*str > 'a' && *str < 'z')
-			*str -= 32; 
+		if (*str >= 'a' && *str <= 'z')
+			*str -= CASE_OFFSET; 
 		str++;
 	}
 }
