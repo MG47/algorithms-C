@@ -2,7 +2,7 @@
 * Partition a linked list based on value x
 * (all nodes less than value x are on one side and the rest on the other)
 * Input: 3 -> 5 -> 8 -> 5 -> 10 -> 2 -> 1 (PARTITION 5)
-* Output: 3 -> 1 -> 2 -> 10 -> 5 -> 5 -> 8 ->
+* Output: 3 -> 1 -> 2 -> -> 5 -> 5 -> 8 -> 10
 */ 
 
 #include <stdio.h>

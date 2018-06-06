@@ -56,7 +56,7 @@ int is_present(struct node *head, int data)
 		if (cur->data == data)
 			return 1;
 		cur = cur->next;
-		}
+	}
 	return 0;
 }
 
