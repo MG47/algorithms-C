@@ -15,7 +15,7 @@ struct date_bit_field {
 	unsigned int year; 	// 4 bytes
 };
 
-void test_enable_disable_certain_flags()
+void test_bitmasks()
 {
 	// Test enabling bits (flags) 3 & 5 and disabling bits 4 & 0
 	// To enable
@@ -271,7 +271,7 @@ int main()
 
 //	test_bit_fields();
 
-	test_enable_disable_certain_flags();
+	test_bitmasks();
 
 	printf("\n\nExiting...\n\n");
 

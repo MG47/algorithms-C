@@ -1,6 +1,35 @@
 
 #include <stdio.h>
 
+void test_no_of_bits_to_change_a_to_b()
+{
+	int a, b, count;
+	a = 0x4DBF; // 0100 1101 1011 1111 
+	b = 0x2CA9; // 0010 1100 1010 1001, need 6 bits to change a to b
+	count = 0;
+
+	a = a ^ b;
+
+	while (a) {
+		a &= a - 1;
+		count++;
+	}
+	printf("No of bits required to convert a to b = %d\n", count);
+
+}
+
+void test_count_no_of_ones()
+{
+	int num, count;
+	num = 0x4FB; // 0100 1111 1011 -> 8 ones
+	count = 0;
+
+	while (num) {
+		num &= num - 1;
+		count++;
+	}
+	printf("No of ones is %d\n", count);
+}
 
 int test_sum_of_digits_recur(int num)
 {
@@ -62,8 +91,7 @@ void test_modulo_remainder()
 	printf("g = %d, h = %d,  g (%) h= %d\n\n", g, h, g % h);
 }
 
-
-
+/* INCOMPLETE TODO */
 int rev_num_recur(int num)
 {
 	static int ones, rev;
@@ -72,7 +100,7 @@ int rev_num_recur(int num)
 		ones = num % 10;
 		rev = rev * 10 + ones;
 		num /= 10;
-		test_rev_num_recur(num);
+		rev_num_recur(num);
 	}
 	return rev;
 }
@@ -88,7 +116,6 @@ void test_rev_num_recursion()
 
 	printf("Reversed number = %d\n", rev);
 }
-
 
 void test_rev_num()
 {
@@ -115,14 +142,14 @@ void test_is_power_of_2()
 	if (!(num & (num - 1)))
 		printf("Original no = %x is a power of 2\n", num);
 	else
-		printf("Original no = %x is not a power of 2\n", num);	
+		printf("Original no = %x is not a power of 2\n", num);
 
 	num = 0x4001; //16385, not power of 2
 
 	if (!(num & (num - 1)))
 		printf("Original no = %x is a power of 2\n", num);
 	else
-		printf("Original no = %x is not a power of 2\n", num);	
+		printf("Original no = %x is not a power of 2\n", num);
 
 }
 
@@ -142,7 +169,10 @@ int main()
 //	test_sum_of_digits();
 
 //	test_sum_of_digits_recursion();
-    
+
+//	test_count_no_of_ones();
+
+	test_no_of_bits_to_change_a_to_b();
 
 	printf("\n\nExiting...\n\n");
 

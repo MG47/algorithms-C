@@ -110,8 +110,8 @@ int main()
 	root->left->left = create_node(4);
 	root->left->right = create_node(1);
 
-		print_inorder(root);
-		printf("\n\n");
+	print_inorder(root);
+	printf("\n\n");
 
 	root = binary_tree_to_bst(root);
 	if (root) {
