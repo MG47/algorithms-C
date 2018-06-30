@@ -1,6 +1,195 @@
 
 #include <stdio.h>
 
+void test_find_lcm()
+{
+	/* 6 & 7 -> lcm is 42 */
+	/* 6 & 4 -> lcm is 12 */
+	/* 18 & 9 -> lcm is 18 */
+
+	int num1 = 6, num2 = 4;
+	int lcm, n1, n2;
+
+	n1 = num1;
+	n2 = num2;
+
+	while (n1 != n2)
+		(n1 > n2) ? (n1 = n1 - n2) : (n2 = n2 - n1);
+
+	lcm = num1 * num2 / n1;
+
+	printf("LCM of %d and %d is %d\n", num1, num2, lcm); 
+}
+
+void test_find_gcd()
+{
+	/* 12 & 18 -> gcd is 6 */
+	/* 20 & 23 -> gcd is 1 */
+	/* 20 & 24 -> gcd is 4 */
+
+	int num1 = 20, num2 = 24;
+	int gcd, n1, n2;
+	
+	n1 = num1;
+	n2 = num2;
+
+	while (n1 != n2) 
+		(n1 > n2) ? (n1 = n1 - n2) : (n2 = n2 - n1);
+	gcd = n1;
+	printf("GCD of %d and %d is %d\n", num1, num2, gcd); 
+}
+
+int fibonacci_recurse(int no)
+{
+	if (no <=1)
+		return no;
+
+	return fibonacci_recurse(no - 1) + fibonacci_recurse(no - 2);
+}
+
+void test_fibonacci_no()
+{
+	/* no = 3-> fib: 2*/
+	/* no = 6-> fib: 8*/
+	
+	int no = 3, ans;
+	
+	ans = fibonacci_recurse(no);
+	printf("fib of %d is %d\n", no, ans);
+}
+
+int factorial(int num)
+{
+	int fact = 1;
+	while (num) {
+		fact *= num;
+		num--;
+	}
+	return fact;
+}
+
+void test_ncr_npr()
+{
+	int n, r, ncr, npr;
+
+	n = 3, r = 2;
+
+	ncr = factorial(n) / (factorial(n - r) * factorial(r));
+	npr = factorial(n) / (factorial(n - r));
+
+	printf("nCr of n=%d and r=%d is %d\n", n, r, ncr); // should be 3
+	printf("nPr of n=%d and r=%d is %d\n", n, r, npr); // should be 6
+}
+
+void test_find_prime_factors_of_no()
+{
+	/* 12 = 2 * 2 * 3, two unique prime factors */
+	/* 20 = 2 * 2 * 5, two unique prime factors */
+	int num = 5; 
+	int i = 0, count = 0; 
+
+	/* Check every no from the beginning */
+	for (i = 1; i <= num; i++) {
+		/* Check that current no is factor of given no */
+		if (!(num % i)) {
+			/* Check if the factor is prime */
+			int j, k = 0;
+			for (j = 1; j <= i; j++) {
+				if (!(i % j)) {
+					k++;
+				}
+			}
+			if (k == 2) { 	// just two factors -> prime no
+				count++;
+				printf("%d is a prime factor of %d\n", i, num);
+			} 
+		}
+	}
+	printf("Total no of unique prime factors of %d is %d\n", num, count);
+}
+
+void test_square_root_floor_of_no()
+{
+	int num = 440, start, end, mid, sqrt;
+
+	if (num == 0 || num == 1)
+		return;
+
+	start = 0, end = num;
+	mid = (start + end) / 2;
+
+	while (start <= end) {
+		mid = (start + end) / 2;
+		if (mid * mid == num) {
+			sqrt = mid;
+			break;
+		} else if (mid * mid < num) {
+			start = mid + 1;
+			sqrt = mid;
+		} else {
+			end = mid - 1;
+		}
+	}
+
+
+	printf("Square Root (floor) is %d\n", sqrt);
+}
+
+void test_subtract_two_no_without_subtraction_operator()
+{
+	int num1, num2, diff;
+	num1 = 10, num2 = 20;
+
+	/* INCOMPLETE TODO */
+	diff = num1 + ~num2 + 1;
+	printf("Difference is %d\n", diff);
+}
+
+void test_add_two_no_without_addition_operator()
+{
+	int num1, num2, sum, carry;
+	num1 = 10, num2 = 20;
+
+	/* HINT: Sum of two bits can be obtained by performing XOR (^) of the two bits. 
+	Carry bit can be obtained by performing AND (&) of two bits.*/
+
+	while (num2) {
+		// carry now contains common set bits of num1 and num2
+		carry = num1 & num2;  
+
+		// Sum of bits of num1 and num2 where at least one of the bits is not set
+		num1 = num1 ^ num2; 
+
+		// Carry is shifted by one so that adding it to num1 gives the required sum
+		num2 = carry << 1;
+	}
+	sum = num1;
+	printf("Addition is %d\n", sum);
+}
+
+void test_largest_of_three_nums()
+{
+	int a, b, c, largest;
+	a = 23, b = 43, c = 29;
+
+	largest = ((a > b && a > c)) ? a : ((b > c) ? b : c);
+	printf("largest of %d, %d, %d is %d\n", a, b, c, largest);
+}
+
+void test_power_of_no()
+{
+	int pow, num, ans, i;
+	pow = 3;
+	num = 3;
+	ans = 1;
+
+	i = pow;
+	while (i--) {
+		ans *= num;
+	}
+	printf("%d power %d is :%d\n", num, pow, ans);
+}
+
 void test_no_of_bits_to_change_a_to_b()
 {
 	int a, b, count;
@@ -136,6 +325,7 @@ void test_rev_num()
 void test_is_power_of_2()
 {
 	int num;
+	/* power of 2 no.s have only 1 set bit : num & (num-1) should return 0) */
 
 	num = 0x4000; //16384, power of 2
 
@@ -146,7 +336,7 @@ void test_is_power_of_2()
 
 	num = 0x4001; //16385, not power of 2
 
-	if (!(num & (num - 1)))
+	if ((num > 1) && !(num & (num - 1)))
 		printf("Original no = %x is a power of 2\n", num);
 	else
 		printf("Original no = %x is not a power of 2\n", num);
@@ -155,8 +345,7 @@ void test_is_power_of_2()
 
 int main()
 {
-	printf("\nTest program\n\n");
-
+	printf("\nTest program: numbers\n\n");
 
 //	test_is_power_of_2();
 
@@ -172,7 +361,27 @@ int main()
 
 //	test_count_no_of_ones();
 
-	test_no_of_bits_to_change_a_to_b();
+//	test_no_of_bits_to_change_a_to_b();
+
+//	test_power_of_no();
+
+//	test_largest_of_three_nums();
+
+//	test_add_two_no_without_addition_operator();
+
+//	test_subtract_two_no_without_subtraction_operator();
+
+//	test_square_root_floor_of_no();
+
+//	test_find_prime_factors_of_no();
+
+//	test_ncr_npr();
+
+//	test_fibonacci_no();
+
+//	test_find_gcd();
+
+//	test_find_lcm();
 
 	printf("\n\nExiting...\n\n");
 
