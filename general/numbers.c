@@ -1,6 +1,89 @@
 
 #include <stdio.h>
 
+/* TODO - Move the MACROS to more appropriate location */
+#define SIZEOF_CUSTOM(var) (((size_t)(&(var) + 1) - (size_t)&(var)))
+
+/* Why this works : https://en.wikipedia.org/wiki/Offsetof#Implementation */
+#define OFFSETOF_CUSTOM(str_type, member) ((size_t)&(((str_type *)0)-> member))
+
+#define SIZEOF_STRUCT(str) (((size_t)(&str + 1) - (size_t)(&str)))
+
+#define SIZEOF_ARRAY(arr) (size_t)(sizeof(arr) / sizeof(int))
+
+struct my_struct { 	// for 64bit Linux: 24bytes
+	int a; 		// 4
+	char b; 	// 1 + 3 padding
+	long c; 	// 8
+	double d; 	// 8
+};
+
+struct my_packed_struct { 	// for 64bit Linux: 21bytes
+	int a; 			// 4
+	char b; 		// 1
+	long c; 		// 8
+	double d; 		// 8
+} __attribute__((packed));
+
+void test_of_macros()
+{
+	struct my_struct mstr;
+	struct my_packed_struct mpstr;
+
+	int arr[12] = {0};
+
+	/* ======================================================== */
+	/* sizeof tests */
+	printf("sizeof int a is %lu\n", SIZEOF_CUSTOM(mstr.a));
+	printf("sizeof char b is %lu\n", SIZEOF_CUSTOM(mstr.b));
+	printf("sizeof long c is %lu\n", SIZEOF_CUSTOM(mstr.c));
+	printf("sizeof double d is %lu\n", SIZEOF_CUSTOM(mstr.d));
+
+	/* ======================================================== */
+	/* struct tests */
+
+	/* offsetof tests */
+	printf("\n\nUnpacked struct tests\n\n");
+
+	printf("offsetof int a is %lu\n", OFFSETOF_CUSTOM(struct my_struct, a));
+	printf("offsetof char b is %lu\n", OFFSETOF_CUSTOM(struct my_struct, b));
+	printf("offsetof long c is %lu\n", OFFSETOF_CUSTOM(struct my_struct, c));
+	printf("offsetof double d is %lu\n", OFFSETOF_CUSTOM(struct my_struct, d));
+
+	/* sizeof struct test */
+	printf("sizeof struct my_struct is %lu\n", SIZEOF_STRUCT(mstr));
+
+	/* ======================================================== */
+	/* Packed struct tests */
+	/* offsetof tests */
+
+	printf("\n\nPacked struct tests\n\n");
+	printf("offsetof int a is %lu\n", OFFSETOF_CUSTOM(struct my_packed_struct, a));
+	printf("offsetof char b is %lu\n", OFFSETOF_CUSTOM(struct my_packed_struct, b));
+	printf("offsetof long c is %lu\n", OFFSETOF_CUSTOM(struct my_packed_struct, c));
+	printf("offsetof double d is %lu\n", OFFSETOF_CUSTOM(struct my_packed_struct, d));
+
+	/* sizeof struct test */
+	printf("sizeof struct my_struct is %lu\n", SIZEOF_STRUCT(mpstr));
+
+	/* ======================================================== */
+	/* sizeof array (int) test */
+	printf("\n\nsizeof array arr is %lu\n", SIZEOF_ARRAY(arr));
+}
+
+void test_round_floating_pt_no()
+{
+	float num;
+	int no;
+
+	/* -3.6 -> -4, 3.6 -> 4 */
+	/* -3.2 -> -3, 3.2 -> 3 */
+	num = 3.2;
+
+	no = (num > 0) ? (int)(num + 0.5) : (int)(num - 0.5);
+	printf("rounded num is %d", no);
+}
+
 void test_find_lcm()
 {
 	/* 6 & 7 -> lcm is 42 */
@@ -382,6 +465,10 @@ int main()
 //	test_find_gcd();
 
 //	test_find_lcm();
+
+//	test_round_floating_pt_no();
+
+	test_of_macros();
 
 	printf("\n\nExiting...\n\n");
 

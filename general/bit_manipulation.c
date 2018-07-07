@@ -3,18 +3,6 @@
 
 #define NO_OF_BITS(type) (sizeof(type) * 8)
 
-struct date_regular {
-	unsigned int day; 	//4 bytes
-	unsigned int month; 	//4 bytes
-	unsigned int year; 	//4 bytes
-};
-
-struct date_bit_field {
-	unsigned int day: 5; 	// max 31 days, 1byte
-	unsigned int month: 4; 	// max 12 months, 1 byte
-	unsigned int year; 	// 4 bytes
-};
-
 void test_bitmasks()
 {
 	// Test enabling bits (flags) 3 & 5 and disabling bits 4 & 0
@@ -28,11 +16,23 @@ void test_bitmasks()
 	int config = 0;
 	printf("Config  = %d\n", config); 
 
-	config = FEATURE_4_FLAG | FEATURE_2_FLAG & ~FEATURE_3_FLAG & ~FEATURE_1_FLAG;
+	config = FEATURE_4_FLAG | (FEATURE_2_FLAG & ~FEATURE_3_FLAG & ~FEATURE_1_FLAG);
 
 	printf("Config  = %d\n", config); //  00..0010 1000, dec 40
 
 }
+
+struct date_regular {
+	unsigned int day; 	//4 bytes
+	unsigned int month; 	//4 bytes
+	unsigned int year; 	//4 bytes
+};
+
+struct date_bit_field {
+	unsigned int day: 5; 	// max 31 days, 1byte
+	unsigned int month: 4; 	// max 12 months, 1 byte
+	unsigned int year; 	// 4 bytes
+};
 
 void test_bit_fields()
 {
@@ -77,20 +77,18 @@ void test_set_substring_bits()
 void test_get_value()
 {
 	// INCOMPLETE
-	int lpos, rpos, num, val;
+	int hbit, lbit, num, val;
 
 	num = 0x345;	// dec 837, bin 0011 0100 0101
-	lpos = 6;
-	rpos = 3; 		// bits 3 - 6 : 1000, val = 8
-					// bits 6 - 9 : 1101, val = 13
+	// bits 3 - 6 : 1000, val = 8
+	// bits 6 - 9 : 1101, val = 13
+	hbit = 9;
+	lbit = 6;
 
 	printf("num = 0x%x\n", num);
-
-	val = (1 << lpos - 1) & (~(~0 << rpos));
-	val >>= rpos;
+	val = ((num >>lbit) & (~(~0<<(hbit-lbit+1))));
 
 	printf("value = %d\n", val);
-
 }
 
 void test_get_k_bits()
@@ -191,13 +189,13 @@ void test_swap_odd_even_bits()
 void test_endianeness()
 {
 	int num;
-	char *c;
+	char c;
 
 	num = 1;
 
-	c = (char *)&num;
+	c = (char)num;
 
-	if (*c) {
+	if (c) {
 		printf("System is little endian \n");
 	} else {
 		printf("System is big endian\n");
@@ -242,10 +240,78 @@ void test_NO_OF_BITS()
 		(int)NO_OF_BITS(int), (int)NO_OF_BITS(float), (int)NO_OF_BITS(double), (int)NO_OF_BITS(a));
 }
 
+void test_basic_bit_manipulation()
+{
+	unsigned int num, no;
+	int pos;
+
+	num = 0x5123; // 0b 0101 0001 0010 0011
+
+	/* Set bit */
+	pos = 4;
+	no = num;
+	printf("\nTest : Set bit %d of num 0x%x\n", pos, no);
+	no |= (1 << pos); 	// should be 0x5133
+	printf("New num : 0x%x\n", no);
+
+	/* Reset bit */
+	pos = 8;
+	no = num;
+	printf("\nTest : Reset bit %d of num 0x%x\n", pos, no);
+	no &= ~(1 << pos); 	// should be 0x5023
+	printf("New num : 0x%x\n", no);
+
+	/* Toggle bit */
+	pos = 3;
+	no = num;
+	printf("\nTest : Toggle bit %d of num 0x%x\n", pos, no);
+	no ^= (1 << pos); 	// should be 0x502b
+	printf("New num : 0x%x\n", no);
+
+	/* Test bit */
+	pos = 12;
+	no = num;
+	printf("\nTest : Test bit %d of num 0x%x\n", pos, no);
+	no = no & (1 << pos); 	 // should be true for bit 12
+	printf("num : bit %d is %s\n", pos, (no ? "SET": "RESET"));
+
+	/* Check even or odd */
+	no = num;
+	printf("\nTest : Check if num 0x%x is even or odd\n", no);
+	no = no & 1; 		 // should be ODD
+	printf("num is %s\n", (no ? "ODD": "EVEN"));
+
+	/* Update bit */
+	pos = 10;
+	int new_bit = 1;
+	no = num;
+	printf("\nTest : Update bit %d with new bit %d of 0x%x\n", pos, new_bit, no);
+	no = (no & ~(1 << pos)) | (new_bit << pos); // should be 0x5123
+	printf("New num 0x%x\n", no);
+
+	/* Turn off rightmost 1 bit */
+	no = num;
+	printf("\nTest : Turn off righmost bit of 0x%x\n", no);
+	no = no & (no - 1); // should be 0x5122
+	printf("New num 0x%x\n", no);
+
+	/* Turn on rightmost 0 bit */
+	no = num;
+	printf("\nTest : Turn on righmost bit of 0x%x\n", no);
+	no = no | (no + 1); // should be 0x5127
+	printf("New num 0x%x\n", no);
+
+	/* Test Muliply / Div by power of 2 */
+	no = num;
+	printf("\nNo 0x%x multipled by 4 (2*2) is 0x%x\n", no, no << 2);
+	printf("\nNo 0x%x divided by 4 (2*2) is 0x%x\n", no, no >> 2);
+}
+
 int main()
 {
 	printf("\nBit manipulation\n\n");
 
+//	test_basic_bit_manipulation();
 
 //	test_NO_OF_BITS();
 
@@ -265,13 +331,14 @@ int main()
 
 //	test_get_k_bits();
 
-//	test_get_value();
+	//INCOMPLETE
+	test_get_value();
 
 //	test_set_substring_bits();
 
 //	test_bit_fields();
 
-	test_bitmasks();
+//	test_bitmasks();
 
 	printf("\n\nExiting...\n\n");
 
