@@ -3,6 +3,22 @@
 
 #define NO_OF_BITS(type) (sizeof(type) * 8)
 
+
+/*
+* Given an integer, prints the next smallest and next
+* largest number that have the same
+* number of 1 bits in their binary representation.
+* e.g 3 (011) higher -> 5 (101); 13 (1101) -> lower 11 (1011)
+* explanation: https://www.slideshare.net/gkumar007/bits-next-higher-presentation
+*/
+void test_next_high_low_no_with_same_no_of_ones()
+{
+	//INCOMPLETE
+	int num = 0x4533; // 0100 0101 0011 0011
+			  // next highest with ones:
+			  // next lowest with ones:
+}
+
 void test_bitmasks()
 {
 	// Test enabling bits (flags) 3 & 5 and disabling bits 4 & 0
@@ -73,17 +89,15 @@ void test_set_substring_bits()
 	printf("no with substring bits = 0x%x\n", ans);
 }
 
-
 void test_get_value()
 {
-	// INCOMPLETE
 	int hbit, lbit, num, val;
 
 	num = 0x345;	// dec 837, bin 0011 0100 0101
 	// bits 3 - 6 : 1000, val = 8
 	// bits 6 - 9 : 1101, val = 13
-	hbit = 9;
-	lbit = 6;
+	hbit = 6;
+	lbit = 3;
 
 	printf("num = 0x%x\n", num);
 	val = ((num >>lbit) & (~(~0<<(hbit-lbit+1))));
@@ -305,6 +319,30 @@ void test_basic_bit_manipulation()
 	no = num;
 	printf("\nNo 0x%x multipled by 4 (2*2) is 0x%x\n", no, no << 2);
 	printf("\nNo 0x%x divided by 4 (2*2) is 0x%x\n", no, no >> 2);
+
+	/* Isolate rightmost 1-bit */
+	no = num;
+	printf("\nTest : Isolate righmost 1 bit of 0x%x\n", no);
+	no = no & (-no); // should be 0x5127
+	printf("New num 0x%x\n", no);
+
+	/* Isolate rightmost 1-bit */
+	no = 0x1240; // 0001 0010 0100 0000
+	printf("\nTest : Isolate righmost 1 bit of 0x%x\n", no);
+	no = no & (-no); // should be 0x40
+	printf("New num 0x%x\n", no);
+
+	/* Isolate rightmost 0-bit */
+	no = 0x1241; // 0001 0010 0100 0001 // bit 1 should be isolated: 0x1
+	printf("\nTest : Isolate righmost 0 bit of 0x%x\n", no);
+	no = ~no & (no + 1); // should be 0x1
+	printf("New num 0x%x\n", no);
+
+	/* Right-propagate rightmost 1-bit */
+	no = 0x1240; // 0001 0010 0100 0000
+	printf("\nTest : Right-propagate rightmost 1 bit of 0x%x\n", no);
+	no = no | (no - 1); // should be 0x127F: 0001 0010 0111 1111
+	printf("New num 0x%x\n", no);
 }
 
 int main()
@@ -331,14 +369,16 @@ int main()
 
 //	test_get_k_bits();
 
-	//INCOMPLETE
-	test_get_value();
+//	test_get_value();
 
 //	test_set_substring_bits();
 
 //	test_bit_fields();
 
 //	test_bitmasks();
+
+	//INCOMPLETE
+	test_next_high_low_no_with_same_no_of_ones();
 
 	printf("\n\nExiting...\n\n");
 

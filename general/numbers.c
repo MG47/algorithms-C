@@ -1,7 +1,27 @@
 
 #include <stdio.h>
 
-/* TODO - Move the MACROS to more appropriate location */
+void swap_two_no_without_temp()
+{
+	int num1, num2;
+	num1 = 10, num2 = 20;
+	printf("\nBefore swap: num 1->%d and num 2->%d\n", num1, num2);
+
+	num1 = num1 + num2;
+	num2 = num1 - num2;
+	num1 = num1 - num2;
+
+	printf("After swap: num 1->%d and num 2->%d\n", num1, num2);
+
+	num1 = num1 ^ num2;
+	num2 = num1 ^ num2;
+	num1 = num1 ^ num2;
+
+	printf("After second swap: num 1->%d and num 2->%d\n", num1, num2);
+}
+
+
+/* INCOMPLETE TODO - Move the MACROS to more appropriate location */
 #define SIZEOF_CUSTOM(var) (((size_t)(&(var) + 1) - (size_t)&(var)))
 
 /* Why this works : https://en.wikipedia.org/wiki/Offsetof#Implementation */
@@ -363,7 +383,6 @@ void test_modulo_remainder()
 	printf("g = %d, h = %d,  g (%) h= %d\n\n", g, h, g % h);
 }
 
-/* INCOMPLETE TODO */
 int rev_num_recur(int num)
 {
 	static int ones, rev;
@@ -452,7 +471,7 @@ int main()
 
 //	test_add_two_no_without_addition_operator();
 
-//	test_subtract_two_no_without_subtraction_operator();
+	test_subtract_two_no_without_subtraction_operator();
 
 //	test_square_root_floor_of_no();
 
@@ -469,6 +488,8 @@ int main()
 //	test_round_floating_pt_no();
 
 	test_of_macros();
+
+	swap_two_no_without_temp();
 
 	printf("\n\nExiting...\n\n");
 

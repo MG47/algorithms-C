@@ -1,8 +1,10 @@
-/* 
-* Custom implmentation of ctype.h 
+/*
+* Custom implmentation of ctype.h
 * INCOMPLETE
-*/ 
+*/
 
+#ifndef CTYPE_CUSTOM_H
+#define CTYPE_CUSTOM_H
 
 #define ISSPACE(c) (c == ' ' || c == '\n' || c == 'r' || c == '\t')
 
@@ -10,9 +12,9 @@
 
 #define ISALPHA(c) (((c >= 'A') && (c <= 'Z')) || ((c >= 'a')  && (c <= 'z')))
 
-#define ISUPPER(c) ((c >= 'A') && (c < 'Z')))
+#define ISUPPER(c) ((c >= 'A') && (c <= 'Z')))
 
-#define ISLOWER(c) ((c >= 'a') && (c < 'z')))
+#define ISLOWER(c) ((c >= 'a') && (c <= 'z')))
 
 #define ISALNUM(c) (((c >= '0') && (c <= '9')) \
 	|| ((c >= 'A') && (c <= 'a')) \
@@ -36,4 +38,7 @@ int   isxdigit(int);
 int   toascii(int);
 
 */
+
+#endif /*CTYPE_CUSTOM_H*/
+
 
