@@ -1,7 +1,212 @@
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
 
-void swap_two_no_without_temp()
+#include <string.h>
+
+char *strrev_custom(char *str)
+{
+	int i = 0, j, len = 0;
+
+	if (!str)
+		return NULL;
+
+	while (str[i++])
+		len++;
+
+	i = 0;
+	j = len - 1;
+	while (i < j) {
+		char c = str[i];
+		str[i] = str[j];
+		str[j] = c;
+		i++;
+		j--;
+	}
+	return str;
+}
+
+void bin_to_hex()
+{
+	//NOTE: Simplification: leading 0s are added for 4-digit grouping
+	char *bin = "000110100111";		// 0x1A7, dec 423
+//	char *bin = "100110110111";		// 0x9B7, dec 2487
+	char *hex;
+	int i, j, num, base;
+
+	printf("\nNumber in binary: %s\n", bin);
+	hex = malloc(sizeof(char) * 10);
+	if (!hex)
+		return;
+
+	i = 0;
+	j = 0;
+	num = 0;
+	base = 8;
+	while (bin[i]) {
+		if (bin[i] - '0')
+			num += (bin[i] - '0') * base;
+		base /= 2;
+
+		if (((i + 1) % 4) == 0) {
+			hex[j] = num <= 9 ? (num + '0') : (num + 'A' - 10);
+			j++;
+			num = 0;
+			base = 8;
+		}
+		i++;
+	}
+	printf("Number in hex: 0x%s\n", hex);
+}
+
+void hex_to_bin()
+{
+	char *hex = "A1FF";			// A1FF 1010 0001 1111 1111
+//	char *hex = "D2C1";			// D2C1 1101 0010 1100 0001
+
+	char *bin;
+	int i, j, num;
+
+	bin = malloc(sizeof(char) * 20);
+	if (!bin)
+		return;
+
+	printf("\nNumber in hex: 0x%s\n", hex);
+
+	i = 0;
+	j = 0;
+	while (hex[i]) {
+		num = (hex[i] <= '9') ? (hex[i] - '0') : (hex[i] - ('A' - 10));
+		while (j < 4) {
+			bin[(i * 4) + (3 - j)] = (num % 2) + '0';
+			num /= 2;
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	bin[i * 4 + 3] = '\0';
+	printf("Number in binary: %s\n", bin);
+}
+
+void dec_to_hex()
+{
+	int num = 494;		// hex 1EE
+	char *hex;
+	int i;
+
+	printf("\nNumber in decimal: %d\n", num);
+
+	hex = malloc(sizeof(char) * 10);
+	if (!hex)
+		return;
+
+	i = 0;
+	while (num) {
+		if ((num % 16) < 9)
+			hex[i] = (num % 16) + '0';
+		else
+			hex[i] = (num % 16) + ('A' - 10);
+		num /= 16;
+		i++;
+	}
+	hex[i] = '\0';
+	strrev_custom(hex);
+
+	printf("Number in hex: 0x%s\n", hex);
+}
+
+void hex_to_dec()
+{
+	char *hex = "F12D";		// 0xF12D, dec 61741
+	int num;
+	int len, i, base;
+
+	printf("\nNumber in hex: %s\n", hex);
+
+	num = 0;
+	len = 0;
+	i = 0;
+	while (hex[i++])
+		len++;
+
+	i = len - 1;
+	base = 1;
+	while (i >= 0) {
+		if ((hex[i]) >= '0' && (hex[i]) <= '9')
+			num += base * (hex[i] - '0');
+		else if((hex[i] >= 'A') && (hex[i] <= 'F'))
+			num += base * (hex[i] - 'A' + 10);
+		else if((hex[i] >= 'a') && (hex[i] <= 'f'))
+			num += base * (hex[i] - 'a' + 10);
+		base *= 16;
+		i--;
+	}
+	printf("Number in decimal: %d\n", num);
+}
+
+void dec_to_bin()
+{
+	int num = 103;		// bin 1100111
+	char *bin;
+	int i;
+
+	printf("\nNumber in decimal: %d\n", num);
+
+	bin = malloc(sizeof(char) * 20);
+	if (!bin)
+		return;
+
+	i = 0;
+	while (num) {
+		bin[i] = (num % 2) + '0';
+		num /= 2;
+		i++;
+	}
+	bin[i] = '\0';
+	strrev_custom(bin);
+
+	printf("Number in binary: %s\n", bin);
+}
+
+void bin_to_dec()
+{
+	char *bin = "0100101";		// 0x25, dec 37
+	int num;
+	int len, i, base;
+
+	printf("\nNumber in binary: %s\n", bin);
+
+	num = 0;
+	len = 0;
+	i = 0;
+	while (bin[i++])
+		len++;
+
+	i = len - 1;
+	base = 1;
+	while (i >= 0) {
+		num += base * (bin[i] - '0');
+		base *= 2;
+		i--;
+	}
+	printf("Number in decimal: %d\n", num);
+}
+
+void test_do_conversions()
+{
+	bin_to_dec();
+	dec_to_bin();
+
+	hex_to_dec();
+	dec_to_hex();
+
+	bin_to_hex();
+	hex_to_bin();
+}
+
+void test_swap_two_no_without_temp()
 {
 	int num1, num2;
 	num1 = 10, num2 = 20;
@@ -20,8 +225,7 @@ void swap_two_no_without_temp()
 	printf("After second swap: num 1->%d and num 2->%d\n", num1, num2);
 }
 
-
-/* INCOMPLETE TODO - Move the MACROS to more appropriate location */
+/* TODO - Move the MACROS to more appropriate location */
 #define SIZEOF_CUSTOM(var) (((size_t)(&(var) + 1) - (size_t)&(var)))
 
 /* Why this works : https://en.wikipedia.org/wiki/Offsetof#Implementation */
@@ -243,7 +447,7 @@ void test_subtract_two_no_without_subtraction_operator()
 	int num1, num2, diff;
 	num1 = 10, num2 = 20;
 
-	/* INCOMPLETE TODO */
+	/* TODO */
 	diff = num1 + ~num2 + 1;
 	printf("Difference is %d\n", diff);
 }
@@ -471,7 +675,7 @@ int main()
 
 //	test_add_two_no_without_addition_operator();
 
-	test_subtract_two_no_without_subtraction_operator();
+//	test_subtract_two_no_without_subtraction_operator();
 
 //	test_square_root_floor_of_no();
 
@@ -487,9 +691,14 @@ int main()
 
 //	test_round_floating_pt_no();
 
-	test_of_macros();
+//	test_of_macros();
 
-	swap_two_no_without_temp();
+//	test_swap_two_no_without_temp();
+
+	test_do_conversions();
+
+// 	TODO
+//	test_get_power();
 
 	printf("\n\nExiting...\n\n");
 
