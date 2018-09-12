@@ -68,10 +68,7 @@ int insert_data(struct data **d, int val)
 int remove_data(struct data **d, int val)
 {
 	struct data *data = *d;
-	if (!data)
-		return -1;
-
-	if (!data->arr)
+	if (!data || !data->arr)
 		return -1;
 
 	int i = 0;
@@ -137,10 +134,7 @@ void do_sort(int *arr, int left, int right)
 
 int quicksort(struct data *d)
 {
-	if (!d)
-		return -1;
-
-	if (!d->arr)
+	if (!d || !d->arr)
 		return -1;
 
 	do_sort(d->arr, 0, (d->len - 1));
@@ -166,7 +160,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int data , position;
+		int data;
 
 		switch (option) {
 		case 1:

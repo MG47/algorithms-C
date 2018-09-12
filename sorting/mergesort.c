@@ -1,6 +1,5 @@
 /*
 * Mergesort
-* INCOMPLETE
 */
 
 #include <stdio.h>
@@ -27,7 +26,6 @@ struct data *create_data(int val)
 	return d;
 }
 
-
 void print_array(struct data *d)
 {
 	if (!d) {
@@ -47,7 +45,6 @@ void print_array(struct data *d)
 		i++;
 	}
 }
-
 
 int insert_data(struct data **d, int val)
 {
@@ -72,10 +69,7 @@ int insert_data(struct data **d, int val)
 int remove_data(struct data **d, int val)
 {
 	struct data *data = *d;
-	if (!data)
-		return -1;
-
-	if (!data->arr)
+	if (!data || !data->arr)
 		return -1;
 
 	int i = 0;
@@ -127,7 +121,7 @@ void merge(int *arr, int left, int right, int mid)
 		left_arr[i] = arr[left + i];
 
 	for (j = 0; j < right_count; j++)
-		right_arr[j] = arr[mid + 1+ j];
+		right_arr[j] = arr[mid + 1 + j];
 
 	i = 0; j = 0; k = left;
 
@@ -168,17 +162,13 @@ void do_sort(int *arr, int left, int right)
 int mergesort(struct data *d)
 {
 
-	if (!d)
-		return -1;
-
-	if (!d->arr)
+	if (!d || !d->arr)
 		return -1;
 
 	do_sort(d->arr, 0, (d->len - 1));
 
 	return 0;
 }
-
 
 int main()
 {
@@ -198,7 +188,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int data , position;
+		int data;
 
 		switch (option) {
 		case 1:

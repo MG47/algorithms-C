@@ -1,6 +1,5 @@
 /*
 * Bubble Sort
-* INCOMPLETE
 */
 
 #include <stdio.h>
@@ -27,7 +26,6 @@ struct data *create_data(int val)
 	return d;
 }
 
-
 void print_array(struct data *d)
 {
 	if (!d) {
@@ -47,7 +45,6 @@ void print_array(struct data *d)
 		i++;
 	}
 }
-
 
 int insert_data(struct data **d, int val)
 {
@@ -72,10 +69,7 @@ int insert_data(struct data **d, int val)
 int remove_data(struct data **d, int val)
 {
 	struct data *data = *d;
-	if (!data)
-		return -1;
-
-	if (!data->arr)
+	if (!data || !data->arr)
 		return -1;
 
 	int i = 0;
@@ -113,14 +107,13 @@ int remove_data(struct data **d, int val)
 int bubblesort(struct data *d)
 {
 	int i, j, temp;
-	if (!d)
+	if (!d || !d->arr)
 		return -1;
 
-	if (!d->arr)
-		return -1;
-
+	/* NOTE: simple implementation: best and worst case are O(N^2) */
+	/* TODO: use a flag 'swapped' to turn best case into O(N) */
 	for (i = 0; i < d->len - 1; i++) {
-		for ( j = 0; j < (d->len) - i - 1; j++) {
+		for (j = 0; j < ((d->len) - i - 1); j++) {
 			if (d->arr[j] > d->arr[j + 1]) {
 				temp = d->arr[j];
 				d->arr[j] = d->arr[j + 1];
@@ -130,7 +123,6 @@ int bubblesort(struct data *d)
 	}
 	return 0;
 }
-
 
 int main()
 {
@@ -150,7 +142,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int data , position;
+		int data;
 
 		switch (option) {
 		case 1:

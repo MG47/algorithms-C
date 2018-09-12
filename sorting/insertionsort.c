@@ -1,6 +1,5 @@
 /*
 * Insertionsort
-* INCOMPLETE
 */
 
 #include <stdio.h>
@@ -70,10 +69,7 @@ int insert_data(struct data **d, int val)
 int remove_data(struct data **d, int val)
 {
 	struct data *data = *d;
-	if (!data)
-		return -1;
-
-	if (!data->arr)
+	if (!data || !data->arr)
 		return -1;
 
 	int i = 0;
@@ -111,10 +107,7 @@ int remove_data(struct data **d, int val)
 int insertionsort(struct data *d)
 {
 	int i, cur_val, j;
-	if (!d)
-		return -1;
-
-	if (!d->arr)
+	if (!d || !d->arr)
 		return -1;
 
 	for (i = 1; i < d->len; i++) {
@@ -147,7 +140,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int data , position;
+		int data;
 
 		switch (option) {
 		case 1:

@@ -1,6 +1,5 @@
 /*
 * Heapsort
-* INCOMPLETE
 */
 
 #include <stdio.h>
@@ -27,7 +26,6 @@ struct heap *create_heap(int data)
 	return h;
 }
 
-
 void print_array(struct heap *h)
 {
 	if (!h) {
@@ -45,28 +43,6 @@ void print_array(struct heap *h)
 	while (i < h->size) {
 		printf("%d - %d\n", i, h->heap_arr[i]);
 		i++;
-	}
-}
-
-void max_heapify(int *arr, int size, int i)
-{
-	int left, right, max;
-	left = 2 * i + 1;
-	right = 2 * i + 2;
-
-	max = i;
-	if (arr[left] > arr[i] && left < size)
-		max = left;
-
-	if (arr[right] > arr[i] && right < size)
-		max = right;
-
-	if (max != i) {
-		int temp;
-		temp = arr[max];
-		arr[max] = arr[i];
-		arr[i] = temp;
-		max_heapify(arr, size, max);
 	}
 }
 
@@ -93,10 +69,7 @@ int insert_data(struct heap **h, int data)
 int remove_data(struct heap **h, int data)
 {
 	struct heap *heap = *h;
-	if (!heap)
-		return -1;
-
-	if (!heap->heap_arr)
+	if (!heap || !heap->heap_arr)
 		return -1;
 
 	int i = 0;
@@ -131,21 +104,37 @@ int remove_data(struct heap **h, int data)
 	return 0;
 }
 
+void max_heapify(int *arr, int size, int i)
+{
+	int left, right, max;
+
+	left = 2 * i + 1;
+	right = 2 * i + 2;
+	max = i;
+
+	if (arr[left] > arr[max] && left < size)
+		max = left;
+
+	if (arr[right] > arr[max] && right < size)
+		max = right;
+
+	if (max != i) {
+		int temp;
+		temp = arr[max];
+		arr[max] = arr[i];
+		arr[i] = temp;
+		max_heapify(arr, size, max);
+	}
+}
+
 int heapsort(struct heap *h)
 {
 	int i, temp;
 
-	if (!h)
+	if (!h || !h->heap_arr)
 		return -1;
 
-	if (!h->heap_arr)
-		return -1;
-
-	int size = h->size;
-	for (int i = size / 2 - 1; i >= 0; i--)
-        	max_heapify(h->heap_arr, size, i);
-
-	for (i = (((h->size) / 2) - 1); i > 0; i--)
+	for (i = h->size / 2 - 1; i >= 0; i--)
 		max_heapify(h->heap_arr, h->size, i);
 
 	for (i = (h->size) - 1; i > 0; i--) {
@@ -157,7 +146,6 @@ int heapsort(struct heap *h)
 	}
 	return 0;
 }
-
 
 int main()
 {
@@ -177,7 +165,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int data , position;
+		int data;
 
 		switch (option) {
 		case 1:
