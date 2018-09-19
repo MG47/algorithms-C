@@ -59,10 +59,7 @@ int is_empty(struct queue *q)
 
 int insert_at_rear(struct queue *q, struct node *data)
 {
-	if (!q)
-		return -1;
-
-	if (is_full(q))
+	if (!q || (is_full(q)))
 		return -1;
 
 	q->data[q->rear++] = data;
@@ -131,8 +128,7 @@ void traverse_level_order(struct node *root)
 
 int main()
 {
-	int ans;
-	struct node *root = NULL;
+	struct node *root;
 
 	root = create_node(12);
 	root->left = create_node(2);
