@@ -33,13 +33,17 @@ char *itoa_custom(int64_t num)
 	if (!str)
 		exit(EXIT_FAILURE);
 
+	if (!num) {
+		str[0] = '0';
+		return str;
+	}
+
 	if (num < 0) {
 		str[0] = '-';
 		sign = -1;
 		num *= sign;
 	}
 
-/* TODO: check if num is 0 */
 	i = 0;
 	while (num) {
 		dec = num % 10;
@@ -57,9 +61,9 @@ char *itoa_custom(int64_t num)
 int main()
 {
 	int64_t num;
-	char *str = NULL;
+	char *str;
+	printf("Enter number\n");
 	scanf("%ld", &num);
-
 
 	str = itoa_custom(num);
 	if (*str)

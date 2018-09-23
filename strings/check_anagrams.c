@@ -1,5 +1,6 @@
 /*
 * Program to check if a string2 is anagram of string1
+* TODO : another approach: sort two strings and do strcmp
 */
 
 #include <stdio.h>
@@ -9,7 +10,7 @@
 
 int is_anagram(char *str1, char *str2)
 {
-	int *val1, *val2, len, i;
+	int *val1, *val2, len, i, ret;
 	if (!str1 || !str2)
 		return 0;
 	
@@ -31,12 +32,19 @@ int is_anagram(char *str1, char *str2)
 	}
 
 	i = 0;
+	ret = 0;
 	while (i < len) {
-		if (val1[str1[i]] != val2[str2[i]])
-			return 0;
+		if (val1[str1[i]] != val2[str1[i]]) {
+			printf("ERROR at %d", i);
+			goto free_exit;
+		}
 		i++;
 	}
 	return 1;
+free_exit:
+	free(val1);
+	free(val2);
+	return ret;
 }
 
 int main()
@@ -44,7 +52,6 @@ int main()
 	printf("Check if two strings are anagrams\n");
 	char *str1 = NULL, *str2 = NULL;
 	size_t len;
-	int i = 0;
 
 	printf("Enter string 1\n");
 

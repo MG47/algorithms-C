@@ -1,5 +1,5 @@
-/* 
-* In-order traversal of a binary tree using stack 
+/*
+* In-order traversal of a binary tree using stack
 */
 
 
@@ -14,7 +14,7 @@ struct stack {
 
 struct node {
 	int data;
-	struct node *left; 
+	struct node *left;
 	struct node *right;
 };
 
@@ -59,20 +59,17 @@ int is_empty(struct stack *s)
 struct node *pop(struct stack *s)
 {
 	struct node *root;
-	if (!s)
-		return 0;
-	
-	if (s->top == -1)
+	if (!s || (s->top == -1))
 		return 0;
 
 	root = s->stack_arr[s->top];
-	
+
 	if ((s->top) > -1)
 		s->top--;
 
 	return root;
 }
- 
+
 struct node *create_node(int data)
 {
 	struct node *temp = malloc(sizeof(struct node));
@@ -132,7 +129,7 @@ void traverse_inorder(struct node *root)
 int main()
 {
 	struct node *root;
-	
+
 	root = create_node(1);
 	root->left = create_node(2);
 	root->right = create_node(3);
@@ -141,7 +138,7 @@ int main()
 	root->right->right = create_node(6);
 
 	traverse_inorder(root);
-	
+
 	return 0;
 }
 

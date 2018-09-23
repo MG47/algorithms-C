@@ -16,7 +16,7 @@ char **word_counter(char *str1)
 
 	int i = 0, j = 0, k = 0;
 
-	while (str1[i] != '\0' || str1[i] != '\n') {
+	while (str1[i] != '\0' && str1[i] != '\n') {
 		word_table[k] = malloc(sizeof(char) * 100);
 		j = 0;
 
@@ -51,7 +51,7 @@ int main()
 	i = 0;
 	word_table = word_counter(str);
 	while (word_table[i]) {
-		printf("word %d: %s\n",i, word_table[i]);
+		printf("word %d: %s\n", i, word_table[i]);
 		i++;
 	}
 

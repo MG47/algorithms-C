@@ -38,26 +38,27 @@ int check_rotation(char *str1, char *str2)
 
 int main()
 {
-	char *str1 = NULL, *str2 = NULL;
+	char *str1, *str2;
 	size_t len;
-	int i = 0;
+	int i, ans;
 	char c;
 
+	i = 0;
+	len = 20;
 	str1 = malloc(sizeof(char) * len);
 	str2 = malloc(sizeof(char) * len);
 	if (!str1 || !str2)
 		exit(EXIT_FAILURE);
 
 	printf("Enter string 1\n");
-	while((c = fgetc(stdin)) != '\n')
+	while((c = fgetc(stdin)) != '\n' && i < 20)
 		str1[i++] = c;
 
 	i = 0;
 	printf("Enter string 2\n");
-	while((c = fgetc(stdin)) != '\n')
+	while((c = fgetc(stdin)) != '\n'  && i < 20)
 		str2[i++] = c;
 
-	int ans = 0;
 	ans = check_rotation(str1, str2);
 	if (ans)
 		printf("String 2 is rotation of string 1\n");

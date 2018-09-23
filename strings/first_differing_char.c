@@ -39,7 +39,6 @@ int main()
 	printf("Find first differing character\n");
 	char *str1 = NULL, *str2 = NULL;
 	size_t len;
-	int i = 0;
 
 	printf("Enter string 1\n");
 

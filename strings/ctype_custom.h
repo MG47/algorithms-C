@@ -1,6 +1,6 @@
 /*
 * Custom implmentation of ctype.h
-* INCOMPLETE
+* TODO
 */
 
 #ifndef CTYPE_CUSTOM_H

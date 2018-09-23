@@ -12,6 +12,7 @@
 int unique_characters(char *str)
 {
 	int *val;
+	int ret;
 
 	if (!str || (*str) == '\n')
 		return 0;
@@ -21,12 +22,17 @@ int unique_characters(char *str)
 		exit(EXIT_FAILURE);
 
 	while (*str) {
-		if (val[*str])
-			return 0;
+		if (val[*str]) {
+			ret = 0;
+			goto free_exit;
+		}
 		val[*str] = 1;
 		str++;
 	}
-	return 1;
+	ret = 1;
+free_exit:
+	free(val);
+	return ret;
 }
 
 int main()
@@ -34,7 +40,6 @@ int main()
 	printf("Check if a string has unique characters\n");
 	char *str = NULL;
 	size_t len;
-	int i = 0;
 
 	printf("Enter string\n");
 
