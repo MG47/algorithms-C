@@ -9,8 +9,10 @@
 
 void *memchr_custom(void *mem, int c, size_t n)
 {
-	int i = 0;
 	unsigned char *src = mem;
+	if (!mem)
+		return NULL;
+	
 	while (n--) {
 		if (*src == c)
 			return src;
@@ -31,9 +33,9 @@ int main()
 	for (i = 0; i < 10; i++)
 		num[i] = i;
 
-	c = 1;
+	c = 2;
 
-	ptr = memchr_custom(num, c, 10 * sizeof(int));
+	ptr = memchr_custom(0, c, 10 * sizeof(int));
 	if (ptr) {
 		printf("start address %p\n", num);
 		printf("Found byte %d at address %p\n", *ptr, ptr);

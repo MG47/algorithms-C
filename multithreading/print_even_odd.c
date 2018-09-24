@@ -1,24 +1,21 @@
 /*
 * Thread 1 prints even numbers and thread 2 prints odd numbers in a given array
-* INCOMPLETE: TODO: add signals/cond vars
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 
-//INCOMPLETE
 pthread_t tid[2];
-unsigned int array_index = 0;
+int array_index = 0;
 
 int arr[10] = {1, 99, 3, 4, 1, 6, 7, 2, 9, 10};
 
 void *print_even()
 {
-
 	while (array_index < 10) {
 		if (!((arr[array_index]) % 2)) {
-			printf("EVEN thread: print index: %d - %d\n", array_index, arr[array_index]);
+			printf("EVEN thread: print index: %d : %d\n", array_index, arr[array_index]);
 			array_index++;
 		}
 
@@ -29,7 +26,7 @@ void *print_odd()
 {
 	while (array_index < 10) {
 		if (((arr[array_index]) % 2)) {
-			printf("ODD thread: print index: %d - %d\n", array_index, arr[array_index]);
+			printf("ODD thread: print index: %d : %d\n", array_index, arr[array_index]);
 			array_index++;		
 		}
 	}

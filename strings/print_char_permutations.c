@@ -16,13 +16,11 @@ void swap(char *a, char *b)
 
 void print_permute(char *str, int left_index, int right_index)
 {
-	int i;
-
 	/* one permutation is ready to be printed */
 	if (left_index == right_index) {
 		printf("%s\n", str);
-
 	} else {
+		int i;
 		/* run the loop from left index -> so that permutation is done on 
 		all the remaining characters of the loop in each step */
 		for (i = left_index; i <= right_index; i++) {
@@ -42,7 +40,7 @@ void print_permute(char *str, int left_index, int right_index)
 
 int main()
 {
-	char str[] = "nxp";
+	char str[] = "abc";
 	int len = strlen(str);
 	print_permute(str, 0, len - 1);
 	return 0;

@@ -38,7 +38,6 @@ int main()
 {
 	char *str = NULL;
 	size_t len;
-	int i = 0;
 
 	printf("Enter string\n");
 

@@ -12,6 +12,9 @@ void *memcpy_custom(void *dest, void *src, size_t n)
 	/* Typecast void ptr to char */
 	unsigned char *source = src;
 	unsigned char *dst = dest;
+	if (!source || !dst)
+		return NULL;
+
 	while (n--)
 		*dst++ = *source++;
 	return dest;

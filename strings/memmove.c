@@ -16,6 +16,9 @@ void *memmove_custom(void *dest, void *src, size_t n)
 	source = src;
 	dst = dest;
 
+	if (!source || !dst)
+		return NULL;
+
 	if (source == dst)
 		return dst;
 

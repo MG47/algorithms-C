@@ -1,13 +1,12 @@
 /*
 * Depth-First Traversal
-* INCOMPLETE
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 struct stack {
-	void *arr;
+	int *arr;
 	int top;
 	int size;
 };
@@ -18,24 +17,29 @@ struct stack *create_stack(int size)
 	if (size <= 0)
 		return NULL;
 
-	s = malloc(sizeof(struct stack *));
+	s = malloc(sizeof(struct stack));
 	if (!s)
-		return NULL;
+		exit(EXIT_FAILURE);
 
 	s->size = size;
 	s->top = -1;
-	s->arr = calloc(s->size, sizeof(void *));
+	s->arr = calloc(s->size, sizeof(int));
 	if (!s->arr)
-		return NULL;
+		exit(EXIT_FAILURE);
 	return s;
+}
+
+void destroy_stack(struct stack *s)
+{
+	if (!s)
+		return;
+	free(s->arr);
+	free(s);
 }
 
 int push(struct stack *s, int data)
 {
-	int *arr;
-	if (!s)
-		return -1;
-	if (!s->arr)
+	if (!s || !s->arr)
 		return -1;
 
 	if (s->top < s->size)
@@ -43,24 +47,20 @@ int push(struct stack *s, int data)
 	else
 		return -1;
 
-	arr = s->arr;
-	arr[s->top] = data;
+	s->arr[s->top] = data;
 	return 0;
 }
 
 int pop(struct stack *s)
 {
 	int data;
-	int *arr;
-	if (!s)
-		return 0; //fix errno
-	if (!s->arr)
+	if (!s || !s->arr)
 		return 0;
 
 	if (s->top < 0)
 		return 0;
-	arr = s->arr;
-	data = arr[s->top];
+
+	data = s->arr[s->top];
 	s->top--;
 	return data;
 }
@@ -72,10 +72,7 @@ struct graph {
 
 void create_random_edges(struct graph *g)
 {
-	if (!g)
-		return;
-
-	if (!g->adj_matrix)
+	if (!g || !g->adj_matrix)
 		return;
 
 	g->adj_matrix[0][1] = 1;
@@ -98,6 +95,11 @@ struct graph *create_random_graph(struct graph **g, int *input_arr, int size)
 {
 	struct graph *graph;
 	int i = 0;
+
+	if (*g) {
+		printf("Graph already exits\n");
+		return NULL;
+	}
 
 	if (!input_arr)
 		return NULL;
@@ -150,23 +152,20 @@ void traverse_depth_first(struct graph *g)
 	struct stack *s;
 	int i, j, k;
 
-	if (!g)
-		return;
-
-	if (!g->adj_matrix)
+	if (!g || !g->adj_matrix)
 		return;
 
 	visited = calloc(g->size, sizeof(int));
 	if (!visited)
-		return;
+		exit(EXIT_FAILURE);
 
 	traverse_arr = calloc(g->size, sizeof(int));
 	if (!traverse_arr)
-		return;
+		exit(EXIT_FAILURE);
 
 	s = create_stack(g->size);
 	if (!s)
-		return;
+		exit(EXIT_FAILURE);
 
 	k = 0;
 	push(s, 0);
@@ -191,6 +190,9 @@ void traverse_depth_first(struct graph *g)
 		printf("%d -> ", traverse_arr[i++]);
 	}
 	printf("done\n");
+	destroy_stack(s);
+	free(visited);
+	free(traverse_arr);
 }
 
 int main()
@@ -210,7 +212,6 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int i = 0;
 		int *input_arr;
 
 		input_arr = malloc(sizeof(int) * 100);

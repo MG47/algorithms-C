@@ -9,6 +9,8 @@
 void *memset_custom(void *src, int byte, size_t n)
 {
 	unsigned char *str = src;
+	if (!src)
+		return NULL;
 	while (n--) {
 		*str = byte;
 		str++;

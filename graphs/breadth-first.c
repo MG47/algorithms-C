@@ -1,13 +1,12 @@
 /*
 * Breadth-First Traversal
-* INCOMPLETE
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 
 struct queue {
-	void *arr;
+	int *arr;
 	int size;
 	int maxsize;
 	int head;
@@ -24,7 +23,7 @@ struct queue *create_queue(int maxsize)
 	q = malloc(sizeof(struct queue));
 	if (!q)
 		exit(EXIT_FAILURE);
-	q->arr = calloc(maxsize, sizeof(void *));
+	q->arr = calloc(maxsize, sizeof(int));
 	if (!q->arr)
 		exit(EXIT_FAILURE);
 
@@ -32,6 +31,15 @@ struct queue *create_queue(int maxsize)
 	q->size = 0;
 	q->head = 0;
 	q->tail = 0;
+	return q;
+}
+
+void destroy_queue(struct queue *q)
+{
+	if (!q)
+		return;
+	free(q->arr);
+	free(q);
 }
 
 int queue_empty(struct queue *q)
@@ -46,15 +54,11 @@ int queue_full(struct queue *q)
 
 void insert_at_tail(struct queue *q, int data)
 {
-	int *arr;
-	if (!q)
-		return;
-	if (!q->arr)
+	if (!q || !q->arr)
 		return;
 
-	arr = q->arr;
 	if (!queue_full(q))
-		arr[q->tail] = data;
+		q->arr[q->tail] = data;
 	else
 		return;
 
@@ -66,20 +70,16 @@ void insert_at_tail(struct queue *q, int data)
 int remove_from_head(struct queue *q)
 {
 	int data;
-	int *arr;
-	if (!q)
-		return 0; 	//fix errno
-	if (!q->arr)
+	if (!q || !q->arr)
 		return 0;
 
-	arr = q->arr;
 	if (!queue_empty(q))
-		data = arr[q->head];
+		data = q->arr[q->head];
 	else
 		return 0;
 	q->head++;
-	q->head %= q->maxsize
-;	q->size--;
+	q->head %= q->maxsize;
+	q->size--;
 	return data;
 }
 
@@ -116,6 +116,11 @@ struct graph *create_random_graph(struct graph **g, int *input_arr, int size)
 {
 	struct graph *graph;
 	int i = 0;
+
+	if (*g) {
+		printf("Graph already exits\n");
+		return NULL;
+	}
 
 	if (!input_arr)
 		return NULL;
@@ -168,9 +173,7 @@ void traverse_breadth_first(struct graph *g)
 	struct queue *q;
 	int i, j, k;
 
-	if (!g)
-		return;
-	if (!g->adj_matrix)
+	if (!g || !g->adj_matrix)
 		return;
 
 	visited = calloc(g->size, sizeof(int));
@@ -183,7 +186,7 @@ void traverse_breadth_first(struct graph *g)
 
 	q = create_queue(g->size);
 	if (!q)
-		return;
+		exit(EXIT_FAILURE);
 
 	k = 0;
 	insert_at_tail(q, 0);
@@ -197,7 +200,6 @@ void traverse_breadth_first(struct graph *g)
 				if (queue_full(q))
 					exit(EXIT_FAILURE);
 				if (!visited[j]) {
-					printf("inserting %d\n", j);
 					insert_at_tail(q, j);
 					visited[j] = 1;
 				}
@@ -210,6 +212,9 @@ void traverse_breadth_first(struct graph *g)
 		printf("%d -> ", traverse_arr[i++]);
 	}
 	printf("done\n");
+	destroy_queue(q);
+	free(visited);
+	free(traverse_arr);
 }
 
 int main()
@@ -229,7 +234,6 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int i = 0;
 		int *input_arr;
 
 		input_arr = malloc(sizeof(int) * 100);

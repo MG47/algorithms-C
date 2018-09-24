@@ -12,6 +12,8 @@ int memcmp_custom(void *s1, void *s2, size_t n)
 	unsigned char *src1, *src2;
 	src1 = s1;
 	src2 = s2;
+	if (!src1 || !src2)
+		return 0;
 
 	while (n--) {
 		if (*src1 != *src2)
