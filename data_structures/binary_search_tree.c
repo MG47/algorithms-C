@@ -1,6 +1,5 @@
 /*
 * Binary Search Tree
-* INCOMPLETE
 * Inserting duplicates is not allowed
 */
 
@@ -49,47 +48,45 @@ struct node *find_min(struct node *n)
 	return cur;  	
 }
 
-struct node *insert_data(struct node **root, int data)
+void insert_data(struct node **root, int data)
 {
 	struct node *cur = *root;
 	if (!cur) {
 		*root = create_node(data);
-		return *root;
+		return;
 	}
 
 	if (data < cur->data)
 		insert_data(&cur->left, data);
 	else if (data > cur->data)
 		insert_data(&cur->right, data);
-	else
-		return NULL;
+	return;
 }
 
-struct node *remove_data(struct node **root, int data)
+struct node *remove_data(struct node *root, int data)
 {
-	struct node *cur = *root;
-	if (!cur) {
-		return NULL;
-	}
+	if (!root)
+		return root;
 
-	if (data < cur->data) {
-		remove_data(&(cur->left), data);
-	} else if (data > cur->data) {
-		remove_data(&(cur->right), data);
+	if (data < root->data) {
+		root->left = remove_data((root->left), data);
+	} else if (data > root->data) {
+		root->right = remove_data(root->right, data);
 	} else {
-		if (cur->left == NULL && cur->right != NULL) {
-			*root = (*root)->right;
-			free(cur);
-			return *root;
-		} else if (cur->right == NULL && cur->left != NULL) {
-			*root = (*root)->left;
-			free(cur);
-			return *root;
+		if (root->left == NULL) {
+			struct node *temp = root->right;
+			free(root);
+			return temp;
+		} else if (root->right == NULL) {
+			struct node *temp = root->left;
+			free(root);
+			return temp;
 		}
-		struct node *temp = find_min(cur->right);
-		(*root)->data = temp->data;
-		(*root)->right = remove_data(&((*root)->right), temp->data);
+		struct node *temp = find_min(root->right);
+		root->data = temp->data;
+		root->right = remove_data((root)->right, temp->data);
 	}
+	return root;
 }
 
 struct node *search(struct node *n, int data)
@@ -99,11 +96,10 @@ struct node *search(struct node *n, int data)
 		return NULL;
 
 	if (data < cur->data)
-		search(cur->left, data);
+		return search(cur->left, data);
 	else if (data > cur->data)
-		search(cur->right, data);
-	else if (data == cur->data)
-		return cur;
+		return search(cur->right, data);
+	return cur;
 }
 
 void print_inorder(struct node *n)
@@ -158,7 +154,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int data , position;
+		int data;
 
 		switch (option) {
 		case 1:
@@ -169,7 +165,7 @@ int main()
 		case 2:
 			printf("Enter data to be removed: ");
 			scanf("%d", &data);
-			remove_data(&root, data);
+			remove_data(root, data);
 			break;
 		case 3:
 		{
@@ -183,18 +179,18 @@ int main()
 		}
 		case 4:
 		{
-			struct node *max;
-			max = find_max(root);
-			if (max)
-				printf("Max value in the tree : %d", max->data);
+			struct node *min;
+			min = find_min(root);
+			if (min)
+				printf("Min value in the tree : %d", min->data);
 			break;
 		}
 		case 5:
 		{
-			struct node *min;
-			min = find_min(root);
-			if (min)
-				printf("Max value in the tree : %d", min->data);
+			struct node *max;
+			max = find_max(root);
+			if (max)
+				printf("Max value in the tree : %d", max->data);
 			break;
 		}
 		case 6:

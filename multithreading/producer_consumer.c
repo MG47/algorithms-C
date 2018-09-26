@@ -36,7 +36,6 @@ struct queue *init_queue(int maxsize)
 int destroy_queue(struct queue *q)
 {
 	free(q);
-	q = NULL;
 	return 0;
 }
 
@@ -142,7 +141,7 @@ void *consumer(void *queue)
 
 int main()
 {
-	pthread_t tid[10];
+	pthread_t tid[20];
 	int i;
 
 	/* Initialize Queue */

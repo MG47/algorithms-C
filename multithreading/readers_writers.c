@@ -28,6 +28,7 @@ void *reader()
 	tid = pthread_self() % 1000;
 	printf("READER %lu: started\n", tid);
 
+	i = 0;
 	while (i++ < 5) {
 
 		/* Wait to be serviced */
@@ -51,6 +52,7 @@ void *reader()
 			sem_post(&resource_access);
 		sem_post(&read_count_access);
 	}
+	pthread_exit(NULL);
 }
 
 void *writer()
@@ -73,7 +75,7 @@ void *writer()
 		printf("WRITER %lu: shared_var: %d\n", tid, shared_var);
 		sem_post(&resource_access);
 	}
-	while (1);
+	pthread_exit(NULL);
 }
 
 int main()

@@ -19,6 +19,7 @@ int remove_duplicates(char *str)
 	if (!val)
 		exit(EXIT_FAILURE);
 
+	i = 0;
 	len = strlen(str);
 	while (i < len) {
 		if (val[str[i]]) {
@@ -34,6 +35,7 @@ int remove_duplicates(char *str)
 		}
 		i++;
 	}
+	free(val);
 	return 1;
 }
 
@@ -42,7 +44,6 @@ int main()
 	printf("Remove duplicate characters\n");
 	char *str = NULL;
 	size_t len;
-	int i = 0;
 
 	printf("Enter string 1\n");
 

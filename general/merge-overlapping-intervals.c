@@ -202,7 +202,7 @@ int main()
 	printf("\nMerge Overlapping Intervals\n\n");
 
 	int option;
-	struct interval_table *int_table = NULL;
+	struct interval_table *int_table;
 	int_table = create_interval_table(10);
 
 	while (1) {
@@ -215,7 +215,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int data1, data2, position;
+		int data1, data2;
 
 		switch (option) {
 		case 1:

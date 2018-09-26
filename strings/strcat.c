@@ -30,17 +30,20 @@ char *strcat_custom(char *dest, char *src)
 
 int main()
 {
-	char *str = NULL, *dest = NULL;
+	char *str = NULL, *dest;
 	size_t len;
 	len = 50;
 	dest = malloc(sizeof(char) * len);
 
 	char c;
 	int i = 0;
+
+	printf("Enter first string\n");
 	/* To avoid reading newline char */
 	while((c = fgetc(stdin)) != '\n')
 		dest[i++] = c;
 
+	printf("Enter second string\n");
 	if (getline(&str, &len, stdin) == -1) {
 		printf("error \n");
 	}

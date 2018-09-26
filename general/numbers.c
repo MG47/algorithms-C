@@ -483,6 +483,27 @@ void test_largest_of_three_nums()
 	printf("largest of %d, %d, %d is %d\n", a, b, c, largest);
 }
 
+int power_recursion(int num, int pow)
+{
+	if (pow < 0) {
+		return num;
+	} else if (pow == 0) {
+		return 1;
+	} else {
+		return num * power_recursion(num, pow - 1) ;
+	}
+}
+
+void test_power_of_no_recursion()
+{
+	int pow, num, ans;
+	pow = 4;
+	num = 3;
+
+	ans = power_recursion(num, pow);
+	printf("%d power %d is : %d\n", num, pow, ans);
+}
+
 void test_power_of_no()
 {
 	int pow, num, ans, i;
@@ -670,6 +691,8 @@ int main()
 //	test_no_of_bits_to_change_a_to_b();
 
 //	test_power_of_no();
+
+	test_power_of_no_recursion();
 
 //	test_largest_of_three_nums();
 

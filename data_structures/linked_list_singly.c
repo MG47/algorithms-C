@@ -1,6 +1,5 @@
 /*
 * Singly Linked List
-* // INCOMPLETE
 */
 
 #include <stdio.h>
@@ -163,7 +162,6 @@ void print_linked_list(struct node *head)
 	printf("(Last Node)\n");
 }
 
-	
 int main()
 {
 	printf("\nSingly Linked List\n\n");

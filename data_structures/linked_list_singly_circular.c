@@ -98,7 +98,7 @@ void insert_at_position(struct node **head, int data, int position)
 	new->next = *head;
 }
 
-void remove_data(struct node **head, int data) 
+void remove_data(struct node **head, int data)
 {
 	//INCOMPLETE
 	struct node *cur, *prev;
@@ -123,7 +123,7 @@ void remove_data(struct node **head, int data)
 	}
 }
 
-void remove_node(struct node **head, int position) 
+void remove_node(struct node **head, int position)
 {
 	// INCOMPLETE
 	int count;
@@ -208,7 +208,6 @@ void print_linked_list(struct node *head)
 	printf("\nLast Node - Circles back to head\n");
 }
 
-	
 int main()
 {
 	printf("\nCircular Singly Linked List\n\n");

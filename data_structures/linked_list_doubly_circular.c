@@ -1,6 +1,5 @@
 /*
 * Doubly Linked List - Circular 
-* // INCOMPLETE
 */
 
 #include <stdio.h>
@@ -12,7 +11,7 @@ struct node {
 	struct node *prev;
 };
 
-static struct node *create_node(int data)
+struct node *create_node(int data)
 {
 	struct node *n;
 	n = malloc(sizeof(struct node));
@@ -25,7 +24,7 @@ static struct node *create_node(int data)
 	return n;
 }
 
-static struct node *insert_at_head(struct node **head_ptr, int data)
+struct node *insert_at_head(struct node **head_ptr, int data)
 {
 	struct node *n;
 	struct node *cur = *head_ptr;
@@ -45,7 +44,7 @@ static struct node *insert_at_head(struct node **head_ptr, int data)
 	return n;
 }
 
-static struct node *insert_at_tail(struct node **head_ptr, int data)
+struct node *insert_at_tail(struct node **head_ptr, int data)
 {
 	struct node *n;
 	struct node *cur = *head_ptr;
@@ -58,19 +57,15 @@ static struct node *insert_at_tail(struct node **head_ptr, int data)
 		return n;
 	}
 
-	while (cur->next != (*head_ptr)) {
-		cur = cur->next;
-	}
-
 	n = create_node(data);
-	n->next = cur->next;
-	n->prev = cur;
-	cur->next = n;
-	cur->next->prev = n;
+	n->next = cur;
+	n->prev = cur->prev;
+	cur->prev = n;
+	n->prev->next = n;
 	return n;
 }
 
-static struct node *insert_at_position(struct node **head_ptr, int data, int position)
+struct node *insert_at_position(struct node **head_ptr, int data, int position)
 {
 	int count = 1;
 	struct node *cur = *head_ptr;
@@ -117,7 +112,7 @@ static struct node *insert_at_position(struct node **head_ptr, int data, int pos
 	return n;
 }
 
-static int remove_data(struct node **head_ptr, int data) 
+int remove_data(struct node **head_ptr, int data)
 {
 	struct node *cur = *head_ptr;
 	struct node *prev;
@@ -158,7 +153,7 @@ static int remove_data(struct node **head_ptr, int data)
 	return -1;
 }
 
-static int search(struct node *head, int data)
+int search(struct node *head, int data)
 {
 	struct node *cur = head;
 	int count = 1;
@@ -186,7 +181,7 @@ static int search(struct node *head, int data)
 	return 0;
 }
 
-static int remove_node(struct node **head_ptr, int position) 
+int remove_node(struct node **head_ptr, int position)
 {
 	struct node *cur = *head_ptr;
 	struct node *prev;
@@ -230,7 +225,7 @@ static int remove_node(struct node **head_ptr, int position)
 	return -1;
 }
 
-static void print_linked_list(struct node *head)
+void print_linked_list(struct node *head)
 {
 	int count = 1;
 	struct node *cur = head;
@@ -259,7 +254,6 @@ static void print_linked_list(struct node *head)
 	printf("(%d): %d \n", count, cur->data);
 	printf("\nLast Node - Circles back to head\n");
 }
-
 	
 int main()
 {
