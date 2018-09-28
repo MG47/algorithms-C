@@ -141,8 +141,8 @@ void *consumer(void *queue)
 
 int main()
 {
-	pthread_t tid[20];
-	int i;
+	pthread_t tid[20] = {0};
+	int i, err;
 
 	/* Initialize Queue */
 	struct queue *q = init_queue(5);
@@ -159,8 +159,14 @@ int main()
 	pthread_mutex_init(&buffer_lock, NULL);
 
 	for (i = 0; i < NUM_CONSUMERS; i++) {
-		pthread_create(&tid[i], NULL, &producer, q);
-		pthread_create(&tid[i + 1], NULL, &consumer, q);
+		err = pthread_create(&tid[i], NULL, &producer, q);
+		if (err)
+			exit(EXIT_FAILURE);
+
+		err = pthread_create(&tid[i + 1], NULL, &consumer, q);
+		if (err)
+			exit(EXIT_FAILURE);
+
 	}
 
 	for (i = 0; i < (NUM_CONSUMERS + NUM_PRODUCERS); i++) 

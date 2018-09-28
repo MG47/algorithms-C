@@ -28,6 +28,7 @@ int main()
 	char *str = NULL, *dest = NULL;
 	size_t len;
 
+	printf("Enter a string \n");
 	if (getline(&str, &len, stdin) == -1) {
 		printf("error \n");
 	}

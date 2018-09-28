@@ -28,10 +28,13 @@ char first_matching_char(char *str1, char *str2)
 	len = strlen(str2);
 
 	while (i < len - 1) {
-		if (val[str2[i]])
+		if (val[str2[i]]) {
+			free(val);
 			return str2[i];
+		}
 		i++;
 	}
+	free(val);
 	return 0;
 }
 

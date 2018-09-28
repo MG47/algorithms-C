@@ -1,7 +1,6 @@
 /*
 * Program to convert a string to a long integer
-* TODO : add support for octal
-* INCOMPLETE
+* TODO
 */
 
 #include <stdio.h>
@@ -38,39 +37,48 @@ long int strtol_custom(char *str, char **endptr, int base)
 
 	num = 0;
 	switch (base) {
+	case 8:
+		/* TODO */
+		break;
 	case 10:
 		while (str[i]) {
 			if (ISDIGIT(str[i])) {
-				num = num * 10 + str[i++] - '0';
+				num = num * 10 + str[i] - '0';
 			} else {
-				*endptr = &str[i];
-				return num * sign;
-			}
-		}
-		break;
-	case 16:
-		/* TODO */
-		while (str[i]) {
-			if (ISDIGIT(str[i])) {
-				num = num * 16 + str[i] - '0';
-			} else if (ISALPHA(str[i])) {
-				if (str[i] >= 'A' && 'F')
-					num = num * 16 + 'A' - 10;
-				else 					
-					num = num * 16 + 'a' - 10;
-			}
-			else {
-				*endptr = &str[i];
+				if (endptr)
+					*endptr = &str[i];
 				return num * sign;
 			}
 			i++;
 		}
-		break;		break;
+		break;
+	case 16:
+		while (str[i]) {
+			if (ISDIGIT(str[i])) {
+				num = num * 16 + str[i] - '0';
+			} else if (ISALPHA(str[i])) {
+				if (str[i] >= 'A' && str[i] <= 'F') {
+					num = num * 16 + str[i] - ('A' - 10);
+				} else if (str[i] >= 'a' && str[i] <= 'f') {
+					num = num * 16 + str[i] - ('a' - 10);
+				} else {
+					if (endptr)
+						*endptr = &str[i];
+					return num * sign;
+				}
+			} else {
+				if (endptr)
+					*endptr = &str[i];
+				return num * sign;
+			}
+			i++;
+		}
+		break;
 	default:
 		break;
 	}
 	*endptr = NULL;
-	return num * sign;
+	return (long)num * sign;
 }
 
 int main()
@@ -79,29 +87,30 @@ int main()
 	size_t len;
 	char *str = NULL, *endptr;
 	char str2[] = "123hellomotto233";
-	char str3[] = "0x123FF"; 
+	char str3[] = "0x123Ff"; 	//decimal 74751
 
 	printf("Convert a string to a long integer\n");
 
+	printf("Enter a decimal:\n");
 	if (getline(&str, &len, stdin) == -1) {
 		printf("error \n");
 	}
 
 	printf("String 1 : %s\n", str);
-	ret = strtol_custom(str, &endptr, 16);
+	ret = strtol_custom(str, &endptr, 10);
 	printf("String 1 int: %ld\n", ret);
 	printf("String 1 first inv char: %s\n", endptr);
-#if 0
+
 	printf("String 2 : %s\n", str2);
 	ret = strtol_custom(str2, &endptr, 10);
 	printf("String 2 int: %ld\n", ret);
-	printf("String 2 first str: %s\n", endptr);
+	printf("String 2 invalid str: %s\n\n", endptr);
 
 	printf("String 3 : %s\n", str3);
-	ret = strtol_custom(str3, &endptr, 10);
+	ret = strtol_custom(str3, &endptr, 16);
 	printf("String 3 int: %ld\n", ret);
-	printf("String 3 first str: %s\n", endptr);
-#endif
+	printf("String 3 invlaid str: %s\n", endptr);
+
 	return 0;
 }
 

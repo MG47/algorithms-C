@@ -21,7 +21,7 @@ sem_t resource_access;
 sem_t read_count_access;
 sem_t service_queue;
 
-void *reader()
+void *reader(void *none)
 {
 	pthread_t tid;
 	int i;
@@ -55,7 +55,7 @@ void *reader()
 	pthread_exit(NULL);
 }
 
-void *writer()
+void *writer(void *none)
 {
 	pthread_t tid;
 	int i = 0;
@@ -80,16 +80,22 @@ void *writer()
 
 int main()
 {
-	pthread_t tid[10];
-	int i;
+	pthread_t tid[10] = {0};
+	int i, err;
 
 	sem_init(&resource_access, 0, 1);
 	sem_init(&read_count_access, 0, 1);
 	sem_init(&service_queue, 0, 1);
 
 	for (i = 0; i < NUM_WRITERS; i++) {
-		pthread_create(&tid[i], NULL, &reader, NULL);
-		pthread_create(&tid[i + 1], NULL, &writer, NULL);
+		err = pthread_create(&tid[i], NULL, &reader, NULL);
+		if (err)
+			exit(EXIT_FAILURE);
+
+		err = pthread_create(&tid[i + 1], NULL, &writer, NULL);
+		if (err)
+			exit(EXIT_FAILURE);
+
 	}
 
 	for (i = 0; i < 10; i++) 

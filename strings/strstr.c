@@ -29,7 +29,7 @@ char *strstr(char *haystack, char *needle)
 
 int main()
 {
-	char *str = NULL, *substr = NULL;
+	char *str = NULL, *substr;
 	size_t len;
 	len = 50;
 	substr = malloc(sizeof(char) * len);
@@ -37,11 +37,13 @@ int main()
 	char c;
 	int i = 0;
 
+	printf("Enter haystack string\n");
 	if (getline(&str, &len, stdin) == -1) {
 		printf("error \n");
 	}
 
 	/* To avoid reading newline char */
+	printf("Enter needle string\n");
 	while((c = fgetc(stdin)) != '\n')
 		substr[i++] = c;
 

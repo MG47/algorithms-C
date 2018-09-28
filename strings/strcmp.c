@@ -20,7 +20,7 @@ int strcmp_custom(const char *str1, const char *str2)
 
 int main()
 {
-	char *str1 = NULL, *str2 = NULL;
+	char *str1, *str2;
 	size_t len;
 	len = 50;
 	str1 = malloc(sizeof(char) * len);
@@ -30,11 +30,14 @@ int main()
 
 	char c;
 	int i = 0, ans;
+
+	printf("Enter string 1 :\n");
 	/* To avoid reading newline char */
 	while((c = fgetc(stdin)) != '\n')
 		str1[i++] = c;
 
 	i = 0;
+	printf("Enter string 2 :\n");
 	while((c = fgetc(stdin)) != '\n')
 		str2[i++] = c;
 

@@ -39,7 +39,7 @@ char *most_frequent_word(char **str_table, int len)
 
 int main()
 {
-	char **str_table = NULL;
+	char **str_table;
 	size_t len, length;
 	int i = 0;
 
@@ -57,6 +57,7 @@ int main()
 	if (ans)
 		printf("Most frequent word: %s\n", ans);
 
+	free(str_table);
 	return 0;
 }
 

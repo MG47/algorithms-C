@@ -65,6 +65,8 @@ int main()
 	else
 		printf("String 2 is not rotation of string 1\n");	
 
+	free(str1);
+	free(str2);
 	return 0;
 }
 

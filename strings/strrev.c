@@ -30,7 +30,7 @@ char *strrev_custom(char *str)
 
 int main()
 {
-	char c, *str = NULL;
+	char c, *str;
 	size_t len;
 
 	int i = 0;

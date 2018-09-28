@@ -19,10 +19,11 @@ size_t strlen_custom(char *str)
 
 int main()
 {
-	char *str = NULL, c;
+	char *str, c;
 	size_t len = 40, length, i = 0;
 
 	str = malloc(sizeof(char) * len);
+	printf("Enter a string\n");
 	while((c = fgetc(stdin)) != '\n')
 		str[i++] = c;
 	str[i] = '\0';
@@ -31,6 +32,7 @@ int main()
 	if (length) 
 		printf("length of the string: %lu\n", length);
 
+	free(str);
 	return 0;
 }
 

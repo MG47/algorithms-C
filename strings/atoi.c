@@ -42,7 +42,7 @@ int main()
 	int64_t num = atoi_custom(str);
 
 	printf("Number: %ld\n", num);
-
+	free(str);
 	return 0;
 }
 
