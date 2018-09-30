@@ -34,10 +34,8 @@ int is_anagram(char *str1, char *str2)
 	i = 0;
 	ret = 0;
 	while (i < len) {
-		if (val1[str1[i]] != val2[str1[i]]) {
-			printf("ERROR at %d", i);
+		if (val1[str1[i]] != val2[str1[i]])
 			goto free_exit;
-		}
 		i++;
 	}
 	return 1;

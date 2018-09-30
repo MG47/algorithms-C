@@ -1,7 +1,5 @@
 /*
 * Queue
-* INCOMPLETE
-* TODO : change single add to multiple item add
 */
 
 #include <stdio.h>
@@ -19,7 +17,7 @@ struct queue {
 struct queue *init_queue(int maxsize)
 {
 	struct queue *q;
-	if (maxsize < 0)
+	if (maxsize <= 0)
 		return NULL;
 
 	q = calloc(1, sizeof(struct queue) + maxsize *  sizeof(int));
@@ -53,7 +51,7 @@ int insert_at_rear(struct queue *q, int *data, int count)
 	if (!q || is_full(q) || !data)
 		return -1;
 
-	if ((q->maxsize - q->size) < count)
+	if (count > (q->maxsize - q->size))
 		count = q->maxsize - q->size;
 
 	if ((q->rear + count) > q->maxsize) {
@@ -68,7 +66,7 @@ int insert_at_rear(struct queue *q, int *data, int count)
 
 	q->rear %= q->maxsize;
 	q->size += count;
-	return 0;
+	return count;
 }
 
 int remove_from_front(struct queue *q, int *data, int count)
@@ -77,10 +75,10 @@ int remove_from_front(struct queue *q, int *data, int count)
 	if ((!q) || (is_empty(q)) || !data)
 		return -1;
 
-	if (q->maxsize - q->size < count)
-		count = q->maxsize - q->size;
+	if (count > q->size)
+		count = q->size;
 
-	if ((q->front > + count) > q->maxsize) {
+	if ((q->front + count) > q->maxsize) {
 		offset = q->maxsize - q->front;
 		memcpy(data, &q->data[q->front], offset * sizeof(int));
 		memcpy((data + offset), &q->data[0], (count - offset) * sizeof(int));
@@ -94,14 +92,14 @@ int remove_from_front(struct queue *q, int *data, int count)
 
 	q->front %= q->maxsize;
 	q->size -= count;
-	return 0;
+	return count;
 }
 
 void print_queue(struct queue *q)
 {
 	int i = 0;
 
-	if ((!q) || (is_empty(q)))
+	if (!q)
 		return;
 
 	printf("Queue rear: %d\n", q->rear);
@@ -133,7 +131,7 @@ int main()
 
 		printf("Enter the option number: ");
 		scanf("%d", &option);
-		int *data, ret, size, i;
+		int data[300], ret, size, i;
 
 		switch (option) {
 		case 1:
@@ -174,7 +172,7 @@ int main()
 				continue;
 			}
 			i = 0;
-			while (size--) 
+			while (ret--)
 				printf("item at the front: %d", data[i++]);
 			break;
 		case 4:

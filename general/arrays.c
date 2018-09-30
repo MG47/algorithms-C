@@ -171,9 +171,43 @@ void test_find_largest_element_in_array()
 	printf("Largest element in the array is %d\n", max);
 }
 
+void test_array_initialization()
+{
+	/* 1D */
+	int my_arr[4] = {0};
+	print_array(my_arr, 4);
+
+	int my_arr_two[] = {6, 1, 3};
+	print_array(my_arr_two, 3);
+
+	printf("\n");
+
+	/* 2D */
+	int i, j;
+
+	int my_2d_arr[3][4] = {};
+	for (i = 0; i < 3; i++) {
+		for (j = 0; j < 4; j++)
+			printf("%d ", my_2d_arr[i][j]);
+		printf("\n");
+	}
+
+	printf("\n");
+
+	int my_2d_arr_two[][2] = {{5, 6}, {1, 3}};
+	for (i = 0; i < 2; i++) {
+		for (j = 0; j < 2; j++)
+			printf("%d ", my_2d_arr_two[i][j]);
+		printf("\n");
+	}
+}
+
+
 int main()
 {
 	printf("\nTest program: Arrays\n\n");
+
+	test_array_initialization();
 
 	test_find_largest_element_in_array();
 

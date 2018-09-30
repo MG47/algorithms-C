@@ -3,6 +3,36 @@
 
 #define NO_OF_BITS(type) (sizeof(type) * 8)
 
+void test_shifts()
+{
+	printf("Testing shifts...\n\n");
+	unsigned int un;
+
+	// TODO - show sign extension, arithmetic vs logical shift
+	un = 0x403; // 0100 0000 0011, l.s ans 1000 0000 0110 (0x806), r.s 0010 0000 0001 (0x201)
+
+	/* Test logical left and right shift */
+	printf("unsigned num (%u) left shift by 1 = %x\n", un, un << 1);
+	printf("unsigned num (%u) right shift by 1 = %d\n\n", un, un >> 1);
+
+	un = (1 << 31);
+	/* Test logical left and right shift */
+	printf("unsigned num (%u) left shift by 1 = %x\n", un, un << 1);
+	printf("unsigned num (%u) right shift by 1 = %d\n\n", un, un >> 1);
+
+	/* Test arithmetic left & right shift */
+	int sn = -1; // 0xFFFFFFFF
+
+	printf("signed num (%d) left shift by 1 = %d\n", sn, sn << 1);
+	printf("signed num (%d) right shift by 1 = %d\n\n", sn, sn >> 2);
+
+	sn = ~(1 << 30);
+
+	printf("signed num (%d) left shift by 1 = %d\n", sn, sn << 1);
+	printf("signed num (%d) right shift by 1 = %d\n", sn, sn >> 1);
+
+	return;
+}
 
 /*
 * Given an integer, prints the next smallest and next
@@ -13,7 +43,7 @@
 */
 void test_next_high_low_no_with_same_no_of_ones()
 {
-	//INCOMPLETE
+	//TODO
 	int num = 0x4533; // 0100 0101 0011 0011
 			  // next highest with ones:
 			  // next lowest with ones:
@@ -378,7 +408,9 @@ int main()
 //	test_bitmasks();
 
 	//INCOMPLETE
-	test_next_high_low_no_with_same_no_of_ones();
+//	test_next_high_low_no_with_same_no_of_ones();
+
+	test_shifts();
 
 	printf("\n\nExiting...\n\n");
 

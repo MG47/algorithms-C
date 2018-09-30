@@ -1,8 +1,7 @@
 /*
 * Stack
-* INCOMPLETE
 * TODO Make dynamically growing stack
-* 
+*
 */
 
 #include <stdio.h>
@@ -17,7 +16,7 @@ struct stack {
 struct stack *init_stack(int maxsize)
 {
 	struct stack *s;
-	if (maxsize < 0) {
+	if (maxsize <= 0) {
 		printf("Invalid stack size \n");
 		exit(EXIT_FAILURE);
 	}
@@ -30,17 +29,19 @@ struct stack *init_stack(int maxsize)
 	return s;
 }
 
-void destroy_stack(struct stack *s)
+void destroy_stack(struct stack **s)
 {
-	free(s);
-	s = NULL;
+	if (!s)
+		return;
+	free(*s);
+	*s = NULL;
 }
 
 int push(struct stack *s, int data)
 {
 	if (!s || (s->top == (s->maxsize - 1)))
 		return -1;
-	
+
 	s->top++;
 	s->stack_arr[s->top] = data;
 	return 0;
@@ -59,7 +60,7 @@ int pop(struct stack *s, int *data)
 {
 	if (!s || s->top == -1)
 		return -1;
-	
+
 	*data = s->stack_arr[s->top--];
 	return 0;
 }
@@ -84,7 +85,7 @@ void print_stack(struct stack *s)
 
 	printf("%d -> %d (top of stack)\n", pos, s->stack_arr[s->top]);
 }
-	
+
 int main()
 {
 	printf("\nStack\n\n");
@@ -147,7 +148,7 @@ int main()
 			printf("Value at the top of stack: %d", data);
 			break;
 		case 5:
-			destroy_stack(s);
+			destroy_stack(&s);
 			printf("Destroyed the stack\n");
 			break;
 		case 6:

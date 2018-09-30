@@ -11,24 +11,47 @@ struct entry {
 	char *key;
 	char *data;
 	struct entry *next;
-	struct entry *hash;
 };
 
 struct hash_table {
-	struct entry *head;
+	// Array of linked lists
+	struct entry **head;
 	int size;
 };
 
-struct entry *create_node(char *key, char *data)
+struct entry *create_list_node(char *key, char *data)
 {
-	struct entry *ent;
-	ent = malloc(sizeof(struct entry));
-	if (!ent)
+	struct entry *new;
+	int len;
+
+	new = malloc(sizeof(struct entry));
+	if (!new)
 		return NULL;
-	strcpy(ent->key, key);
-	strcpy(ent->data, data);
-	ent->next = NULL;
-	return ent;
+
+	len = strlen(key);
+	new->key = malloc(sizeof(char) * len);
+	if (!new->key)
+		exit(EXIT_FAILURE);
+
+	len = strlen(data);
+	new->data = malloc(sizeof(char) * len);
+	if (!new->data)
+		exit(EXIT_FAILURE);
+
+	strcpy(new->key, key);
+	strcpy(new->data, data);
+	new->next = NULL;
+	return new;
+}
+
+void remove_list_node(struct entry **node)
+{
+	if (!node)
+		return;
+	free((*node)->key);
+	free((*node)->data);
+	free(*node);
+	*node = NULL;
 }
 
 /* K & R hash function */
@@ -42,66 +65,57 @@ int hash_function(char *key, int size)
 
 int insert_data(struct hash_table *ht, char *key, char *data)
 {
-	int index, size, i = 0;
-	size = ht->size;
-	printf("index is %d\n", index);
+	int index;
+	struct entry *new_ent;
 
 	if (!ht)
 		return -1;
 
-	index = hash_function(key, size);
+	index = hash_function(key, ht->size);
 
-
-	struct entry *new_ent = create_node(key, data);
+	new_ent = create_list_node(key, data);
 	if (!(ht->head[index])) {
 		ht->head[index] = new_ent;
-		return index;
 	} else {
 		struct entry *cur;
 		cur = ht->head[index];
 		while (cur->next != NULL) 
 			cur = cur->next;
 		cur->next = new_ent;
-		return index;
 	}
-	return -1;
+	return index;
 }
  
-int remove_data(struct hash_table *ht, char * key)
+int remove_data(struct hash_table *ht, char *key)
 {
-	int index, size;
-	size = ht->size;
+	return 0;
+	// TODO
 #if 0
+	int index;
+	struct entry *cur;
+
 	if (!ht)
 		return -1;
 
-	index = hash_function(key, size);
+	index = hash_function(key, ht->size);
 
-	if (!(ht->head[index].key))
-		return -1;
-
-	struct entry *cur = ht->head[index];
+	cur = ht->head[index];
 	while (!cur) {
-		if (!strcmp(key, ht->head[index].key)) {
-
-			free(cur);
-			cur = NULL;
-
-			free(ht->head[index].data);
-			ht->head[index].data = NULL;
-			return data;
+		if (!strcmp(key, ht->head[index]->key)) {
+			remove_list_node(&ht->head[index]);
+			return 0;
 		}
 		cur = cur->next;
 	}
-	return data;
-#endif
 	return 0;
+#endif
 }
 
 char *search(struct hash_table *ht, char *key)
 {
 	int index, size;
 	char *data = NULL;
+	struct entry *cur;
 
 	if (!ht)
 		return NULL;
@@ -109,11 +123,11 @@ char *search(struct hash_table *ht, char *key)
 	size = ht->size;
 	index = hash_function(key, size);
 
-	struct entry *cur = ht->head[index];
-	while (!cur) {
-		if (!strcmp(key, ht->head[index].key)) {
-			data = malloc(sizeof(char) * strlen(ht->head[index].data));
-			strcpy(data, ht->head[index].data);
+	cur = ht->head[index];
+	while (cur) {
+		if (!strcmp(key, cur->key)) {
+			data = malloc(sizeof(char) * strlen(cur->data));
+			strcpy(data, cur->data);
 			return data;
 		}
 		cur = cur->next;
@@ -121,33 +135,34 @@ char *search(struct hash_table *ht, char *key)
 	return data;
 }
 
-struct hash_table *init_table(struct hash_table **ht, int size)
+struct hash_table *init_table(int size)
 {
+	struct hash_table
 	*ht = malloc(sizeof(struct hash_table));
 	if (!ht)
 		exit(EXIT_FAILURE);
 
-	(*ht)->size = size;
-	(*ht)->ent = malloc(sizeof(struct entry) * size);
-	if (!((*ht)->ent))
+	ht->size = size;
+	ht->head = malloc(sizeof(struct entry *) * size);
+	if (!(ht->head))
 		exit(EXIT_FAILURE);
-	return 0;
+	return ht;
 }
 
 int delete_table(struct hash_table **ht)
 {
-	if (!ht)
-		return -1;
-
 	int i;
+	struct entry *cur;
+	if (!ht)
+		return 0;
 
-	//incomplete
-	while (i < (*ht)->size) {
-		free((*ht)->ent[i].key);
-		free((*ht)->ent[i].data);
+	i = 0;
+	while (i < (*ht)->size)	{
+		cur = (*ht)->head[i];
+		if (cur)
+			remove_list_node(&cur);
+		i++;
 	}
-	free((*ht)->ent);
-	free(*ht); 
 	*ht = NULL;
 	return 0;
 }
@@ -155,6 +170,7 @@ int delete_table(struct hash_table **ht)
 void print_table(struct hash_table *ht)
 {
 	int i = 0;
+	struct entry *cur;
 
 	if (!ht) {
 		printf("Table does not exist\n");
@@ -162,12 +178,14 @@ void print_table(struct hash_table *ht)
 	}
 
 	while (i < ht->size) {
-		if (ht->ent[i].key) {
-			printf("Key:%s\t", ht->ent[i].key);
-			printf("data:%s\n", ht->ent[i].data);
-		} else {
-			printf("Key: (empty), data: (empty)\n");
+		cur = ht->head[i];
+		printf("Index %d: ", i);
+		while (cur) {
+			printf("Key:%s::", cur->key);
+			printf("data:%s--->", cur->data);
+			cur = cur->next;
 		}
+		printf("\n");
 		i++;
 	}
 }
@@ -198,19 +216,20 @@ int main()
 
 		switch (option) {
 		case 1:
-			printf("Enter the size of the table ");
+			if (ht) {
+				printf("Hash table already exists\n");
+				continue;
+			}
+			printf("Enter the size of the table");
 			scanf("%d", &val);
-			init_table(&ht, val);
+			ht = init_table(val);
 			break;
 		case 2:
 			printf("Enter key to be inserted: ");
 			scanf("%s", key);
 			printf("Enter data to be inserted: ");
 			scanf("%s", data);
-			if (ht) {
-				if ((insert_data(ht, key, data) == -1))
-					printf("No space left in hash table!\n");
-			}
+			insert_data(ht, key, data);
 			break;
 		case 3:
 			printf("Enter key to be removed: ");
@@ -239,8 +258,4 @@ int main()
 	}
 	return 0;
 }
-
-
-
-
 

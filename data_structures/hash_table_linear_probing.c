@@ -1,6 +1,6 @@
 /*
 * Hash Table - Linear Probing
-* INCOMPLETE
+* TODO
 */
 
 #include <stdlib.h>
@@ -28,12 +28,13 @@ int hash_function(char *key, int size)
 
 int insert_data(struct hash_table *ht, char *key, char *data)
 {
-	int index, size, i = 0;
-	size = ht->size;
+	int index, size, i;
 
 	if (!ht)
 		return -1;
 
+	size = ht->size;
+	i = 0;
 	index = hash_function(key, size);
 
 	while (i < ht->size) {
@@ -54,13 +55,12 @@ int insert_data(struct hash_table *ht, char *key, char *data)
  
 int remove_data(struct hash_table *ht, char * key)
 {
-	int index, size, i = 0;
-	size = ht->size;
+	int index, i = 0;
 
 	if (!ht)
 		return -1;
 
-	index = hash_function(key, size);
+	index = hash_function(key, ht->size);
 
 	while (i < ht->size) {
 		if (!strcmp(key,ht->ent[index].key)) {
@@ -105,9 +105,10 @@ char *search(struct hash_table *ht, char *key)
 
 struct hash_table *init_table(struct hash_table **ht, int size)
 {
-	*ht = malloc(sizeof(struct hash_table));
 	if (!ht)
-		exit(EXIT_FAILURE);
+		return NULL;
+
+	*ht = malloc(sizeof(struct hash_table));
 
 	(*ht)->size = size;
 	(*ht)->ent = malloc(sizeof(struct entry) * size);
@@ -118,15 +119,17 @@ struct hash_table *init_table(struct hash_table **ht, int size)
 
 int delete_table(struct hash_table **ht)
 {
+	int i;
+
 	if (!ht)
 		return -1;
 
-	int i;
-
-	//incomplete
+	i = 0;
+	//TODO
 	while (i < (*ht)->size) {
 		free((*ht)->ent[i].key);
 		free((*ht)->ent[i].data);
+		i++;
 	}
 	free((*ht)->ent);
 	free(*ht); 
@@ -221,8 +224,5 @@ int main()
 	}
 	return 0;
 }
-
-
-
 
 
