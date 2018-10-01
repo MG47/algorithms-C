@@ -1,7 +1,7 @@
-/* 
+/*
 * Find intersecting node between two linked lists
 * (Node in one linked list points to node in another linked list)
-*/ 
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -96,7 +96,7 @@ int main()
 {
 	struct node* head1 = NULL;
 	struct node* head2 = NULL;
-	struct node* intersecting_node = NULL;
+	struct node* intersecting_node;
 
 	insert_at_head(&head1, 20);
 	insert_at_head(&head1, 4);

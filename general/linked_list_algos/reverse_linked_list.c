@@ -1,4 +1,4 @@
-/* 
+/*
 * Reverse a singly linked list
 */
 
@@ -49,7 +49,7 @@ void print_linked_list(struct node *head)
 	printf("(tail)\n");
 }
 
-int reverse_list(struct node **head)
+void reverse_list(struct node **head)
 {
 	struct node *cur, *prev, *next;
 	cur = *head;

@@ -1,6 +1,6 @@
 /*
 * Find 'k' th from last element of a singly linked list 
-* Uses recursion
+* Iterative and recursive solutions
 */ 
 
 #include <stdio.h>
@@ -63,7 +63,8 @@ struct node *kth_to_last_element_recurse(struct node *head, int k, int *reverse_
 	return cur;
 }
 
-struct node *kth_to_last_element(struct node *head, int k)
+/* Recursive solution */
+struct node *kth_to_last_element_recursion(struct node *head, int k)
 {
 	int reverse_pos = 0;
 	if (!head)
@@ -71,10 +72,33 @@ struct node *kth_to_last_element(struct node *head, int k)
 	return kth_to_last_element_recurse(head, k, &reverse_pos);
 }
 
+/* Iterative solution */
+struct node *kth_to_last_element_iteration(struct node *head, int k)
+{
+	struct node *cur;
+	int len, num;
+	if (!head)
+		return NULL;
+
+	len = 0;
+	cur = head;
+	while (cur) {
+		cur = cur->next;
+		len++;
+	}
+
+	cur = head;
+	num = len - k;
+	while (num--) {
+		cur = cur->next;
+	}
+	return cur;
+}
+
 int main()
 {
 	struct node* head = NULL;
-	struct node *ans = NULL;
+	struct node *ans;
 
 	insert_at_head(&head, 20);
 	insert_at_head(&head, 4);
@@ -87,8 +111,13 @@ int main()
 	print_linked_list(head);
 
 	int k;
-	k = 2;
-	ans = kth_to_last_element(head, k);
+	k = 5;
+
+	/* Recursive approach */
+//	ans = kth_to_last_element_recursion(head, k);
+
+	/* Iterative approach */
+	ans = kth_to_last_element_iteration(head, k);
 
 	if (ans)
 		printf("element no. %d from last node is %d\n", k, ans->data);

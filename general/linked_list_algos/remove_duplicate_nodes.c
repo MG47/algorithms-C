@@ -49,6 +49,9 @@ void print_linked_list(struct node *head)
 	printf("(tail)\n");
 }
 
+/*
+* O(N^2) time, in-place algorithm
+*/
 void remove_duplicate_nodes(struct node *head)
 {
 	struct node *cur, *runner, *temp;
@@ -58,14 +61,14 @@ void remove_duplicate_nodes(struct node *head)
 	cur = head;
 	while (cur) {
 		runner = cur;
-		while (runner) {
+		while (runner && runner->next) {
 			if (runner->next->data == cur->data) {
 				temp = runner->next;
 				runner->next = temp->next;
 				free(temp);
 			}
 			runner = runner->next;
-		}	
+		}
 		cur = cur->next;
 	}
 }

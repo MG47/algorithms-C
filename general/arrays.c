@@ -12,6 +12,123 @@ void print_array(int *arr, int size)
 
 }
 
+
+/*
+* if an element in an MxN matrix is 0, its entire row and
+* column are set to O
+*/
+void test_zero_matrix()
+{
+#define ROWS 3
+#define COLUMNS 4
+
+	int i, j;
+	int my_2d_arr[ROWS][COLUMNS] = {{1, 5, 88, 21},
+					{1, 0, 37, 16},
+					{2, 4, 0, 9}};
+
+	int zero_rows[ROWS] = {0};
+	int zero_columns[COLUMNS] = {0};
+
+
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			printf("%d ", my_2d_arr[i][j]);
+		}
+		printf("\n");
+	}
+
+	/* Track all the rows and columns which have zero elements */
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			if (!my_2d_arr[i][j]) {
+				zero_rows[i] = 1;
+				zero_columns[j] = 1;
+			}
+		}
+		printf("\n");
+	}
+	/* Zero out tracked rows and columns */
+	for (i = 0; i < ROWS; i++) {
+		if (zero_rows[i]) {
+			for (j = 0; j < COLUMNS; j++) {
+				my_2d_arr[i][j] = 0;
+			}
+		}
+	}
+
+	for (j = 0; j < COLUMNS; j++) {
+		if (zero_columns[j]) {
+			for (i = 0; i < ROWS; i++) {
+				my_2d_arr[i][j] = 0;
+			}
+		}
+	}
+
+	printf("\nArray after zeroing\n");
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			printf("%d ", my_2d_arr[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+/*
+* Given an image represented by an NxN matrix, where each pixel in the image is 4
+* bytes,rotate the image by 90 degrees, in place.
+*/
+void test_rotate_matrix()
+{
+// to suppress warnings
+#undef ROWS
+#undef COLUMNS
+
+#define ROWS 3
+#define COLUMNS 3
+
+	int i, j;
+	int my_2d_arr[ROWS][COLUMNS] = {{1, 5, 88},
+					{1, 0, 37},
+					{2, 4, 0}};
+
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			printf("%d ", my_2d_arr[i][j]);
+		}
+		printf("\n");
+	}
+
+	int top_l, top_r, bottom_l, bottom_r;
+	int layer, layer_max, temp;
+
+	layer = 0;
+	layer_max = (ROWS - 1) - layer;
+
+	top_l = 0;
+	top_r = 0;
+	bottom_l = ROWS - 1;
+	bottom_r = ROWS - 1;
+
+	// TODO : complete
+	for (i = layer; i <= layer_max; i++) {
+		temp = my_2d_arr[layer][top_l + i];
+
+		my_2d_arr[layer][top_l + i] = my_2d_arr[bottom_l - i][layer];
+		my_2d_arr[bottom_l - i][layer] = my_2d_arr[layer_max][bottom_r - i];
+		my_2d_arr[layer_max][bottom_r - i] = my_2d_arr[top_r + i][layer_max];
+		my_2d_arr[top_r + i][layer_max] = temp;
+	}
+
+	printf("\nArray after 90 right-rotation\n");
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			printf("%d ", my_2d_arr[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 void test_allocate_2D_array()
 {
 	int i, j;
@@ -206,7 +323,7 @@ void test_array_initialization()
 int main()
 {
 	printf("\nTest program: Arrays\n\n");
-
+#if 0
 	test_array_initialization();
 
 	test_find_largest_element_in_array();
@@ -220,6 +337,10 @@ int main()
 	test_find_count_of_repeating_elements_in_1_to_n_array();
 
 	test_allocate_2D_array();
+#endif
+	test_rotate_matrix();
+
+//	test_zero_matrix();
 
 	printf("\n\nExiting...\n\n");
 

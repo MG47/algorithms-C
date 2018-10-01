@@ -1,6 +1,6 @@
-/* 
+/*
 * Find intersection and union lists of two singly linked lists 
-*/ 
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -63,7 +63,6 @@ int is_present(struct node *head, int data)
 struct node *get_intersection(struct node *head1, struct node *head2)
 {
 	struct node *intersection_list;
-	int i = 0;
 	intersection_list = NULL;
 
 	while (head2) {
@@ -77,7 +76,6 @@ struct node *get_intersection(struct node *head1, struct node *head2)
 struct node *get_union(struct node *head1, struct node *head2)
 {
 	struct node *union_list;
-	int i = 0;
 	union_list = NULL;
  
 	while (head1) {

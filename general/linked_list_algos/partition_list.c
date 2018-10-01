@@ -1,9 +1,9 @@
-/* 
+/*
 * Partition a linked list based on value x
 * (all nodes less than value x are on one side and the rest on the other)
 * Input: 3 -> 5 -> 8 -> 5 -> 10 -> 2 -> 1 (PARTITION 5)
 * Output: 3 -> 1 -> 2 -> -> 5 -> 5 -> 8 -> 10
-*/ 
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,6 +90,7 @@ void partition_list(struct node *head, int partition_point)
 
 	}
 
+	/* Merge lists back to original list */
 	cur = less_than_list;
 	while (cur) {
 		head->data = cur->data;
@@ -136,6 +137,7 @@ int main()
 	printf("List 1: \n");
 	print_linked_list(head1);
 
+	printf("Partition at value: %d\n", 10);
 	partition_list(head1, 10);
 
 	print_linked_list(head1);
