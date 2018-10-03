@@ -12,6 +12,82 @@ void print_array(int *arr, int size)
 
 }
 
+void test_matrix_transposition()
+{
+#define ROWS 4
+#define COLUMNS 4
+
+	int i, j;
+	int my_2d_arr[ROWS][COLUMNS] = {{1, 2, 3, 4},
+					{5, 6, 7, 8},
+					{9, 10, 11, 12},
+					{13, 14, 15, 16}};
+
+	int my_2d_transpose[ROWS][COLUMNS];
+
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			printf("%d ", my_2d_arr[i][j]);
+		}
+		printf("\n");
+	}
+
+	/* Matrix transposition */
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			my_2d_transpose[i][j] = my_2d_arr[j][i];
+		}
+		printf("\n");
+	}
+
+	printf("\nMatrix after transposition\n");
+	for (i = 0; i < ROWS; i++) {
+		for (j = 0; j < COLUMNS; j++) {
+			printf("%d ", my_2d_transpose[i][j]);
+		}
+		printf("\n");
+	}
+}
+
+/* TODO */
+void test_matrix_multiplication()
+{
+#define ROWS_A 2
+#define COLUMNS_A 4
+
+#define ROWS_B 4
+#define COLUMNS_B 2
+
+	int i, j;
+	int arr_A[ROWS_A][COLUMNS_A] = {{1, 0, 1, 0},
+					{0, 1, 1, 0}};
+
+	int arr_B[ROWS_B][COLUMNS_B] = {{1, 0},
+					{0, 1},
+					{1, 0},
+					{0, 1}};
+
+	int multi_arr[ROWS_A][COLUMNS_B] = {{0}};
+
+	/* Matrix multiplication */
+	for (i = 0; i < ROWS_A; i++) {
+		for (j = 0; j < COLUMNS_B; j++) {
+			int cur_dot_prod = 0;
+			int k;
+			for (k = 0; k < COLUMNS_A; k++)
+				cur_dot_prod += arr_A[i][k] * arr_B[k][j];
+			multi_arr[i][j] = cur_dot_prod;
+		}
+	}
+
+	printf("\nMultiplication matrix\n");
+	for (i = 0; i < ROWS_A; i++) {
+		for (j = 0; j < COLUMNS_B; j++) {
+			printf("%d ", multi_arr[i][j]);
+		}
+		printf("\n");
+	}
+}
 
 /*
 * if an element in an MxN matrix is 0, its entire row and
@@ -19,6 +95,7 @@ void print_array(int *arr, int size)
 */
 void test_zero_matrix()
 {
+#undef ROWS
 #define ROWS 3
 #define COLUMNS 4
 
@@ -338,9 +415,14 @@ int main()
 
 	test_allocate_2D_array();
 #endif
-	test_rotate_matrix();
+	//TODO
+//	test_rotate_matrix();
 
 //	test_zero_matrix();
+
+//	test_matrix_multiplication();
+
+//	test_matrix_transposition();
 
 	printf("\n\nExiting...\n\n");
 

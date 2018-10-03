@@ -39,7 +39,7 @@ int bin_search(int *array, int len, int search)
 		} else if (array[middle] > search) {
 			last = middle - 1;
 		} else {
-			return 1;
+			return middle;
 		}
 		middle = (first + last)/2;
 	}
@@ -59,7 +59,7 @@ int main()
 	key = 87;
 	found = bin_search(search_arr, len, key);
 	if (found)
-		printf("Found element %d in the array\n", key);
+		printf("Found element at index %d in the array\n", found);
 	else
 		printf("Did not find element %d in the array\n", key);
 	return 0;

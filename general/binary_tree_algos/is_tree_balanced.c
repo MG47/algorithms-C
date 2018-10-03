@@ -1,5 +1,7 @@
-/* Program to Check If a Binary Tree is Balanced*/
-/* Support Algorithms: Get height of a tree */
+/*
+* Program to Check If a Binary Tree is Balanced
+* Support Algorithms: Get height of a tree
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
