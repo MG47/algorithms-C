@@ -1,12 +1,11 @@
 /*
-* Program to study function pointers and enums in C
+* Program to study function pointers
 */
 
 #include <stdio.h>
 
 /*
 * Example 1 - Car structure
-* enums
 */
 
 /* Car operations */
@@ -152,7 +151,7 @@ void wrapper_caller(int (*func)(int, int), int a, int b)
 int main()
 {
 	/******************************************************************************************/
-	/* Example 1: Car strucutre - basic function pointers and enum */
+	/* Example 1: Car strucutre - basic function pointers */
 	/******************************************************************************************/
         struct car jaguar;
 
