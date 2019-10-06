@@ -36,6 +36,43 @@ int main()
 
 	printf("Size of union car %lu\n", sizeof(my_car));
 
+
+	// struct initialization
+
+	struct name {
+		unsigned int len;
+		char *str;
+	} names[2] = {
+		{
+			.len = 3,
+			.str = "abc",
+		},
+		{
+			.len = 6,
+			.str = "hello",
+		}
+	};
+
+	printf("names %d: len: %u\n", 0, names[0].len);
+	printf("names %d: str: %s\n", 0, names[0].str);
+	printf("names %d: len: %u\n", 1, names[1].len);
+	printf("names %d: str: %s\n", 1, names[1].str);
+
+	/* sizeof */
+	struct packet {
+		unsigned int len;
+		void *hdr;
+		void *payload;
+	};
+
+	struct packet pkt, *pkt_ptr;
+	pkt_ptr = &pkt;
+
+	printf("Size of struct packet %lu\n", sizeof(struct packet));
+	printf("Size of pkt %lu\n", sizeof(pkt));
+	printf("Size of pkt_ptr %lu\n", sizeof(pkt_ptr));
+	printf("Size of *pkt_ptr %lu\n", sizeof(*pkt_ptr));
+
 	return 0;
 }
 
