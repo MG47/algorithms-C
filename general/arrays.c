@@ -1,14 +1,49 @@
+/*
+* Array/matrix programs
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
+
+/* Utitlies */
+#define SIZEOF_ARR(arr) (sizeof(arr) / sizeof(arr[0]))
 
 void print_array(int *arr, int size)
 {
 	int i = 0;
 	printf("\nArray: {");
 	while (i < size) {
-		printf("%d ", arr[i++]);
+		printf(" %d ", arr[i++]);
 	}
 	printf("}\n");
+
+}
+
+/*
+* Move all zeros in an array to end without changing order of non-zero elements
+*/
+void test_shift_zeros_to_end()
+{
+	int arr[] = {0, 1, 19, 200, 0, 5, 1, 44, 6, 0, 1, 0};
+	int count, len, i;
+	len = SIZEOF_ARR(arr);
+
+	print_array(arr, len);
+
+	count = 0;
+	i = 0;
+	while (i < len) {
+		if (arr[i])
+			arr[count++] = arr[i];
+		i++;
+	}
+
+	while (count < len) {
+		arr[count] = 0;
+		count++;
+	}
+
+	print_array(arr, len);
 
 }
 
@@ -423,6 +458,8 @@ int main()
 //	test_matrix_multiplication();
 
 //	test_matrix_transposition();
+
+	test_shift_zeros_to_end();
 
 	printf("\n\nExiting...\n\n");
 
