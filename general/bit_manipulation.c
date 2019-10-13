@@ -3,6 +3,24 @@
 
 #define NO_OF_BITS(type) (sizeof(type) * 8)
 
+void test_alternating_bits()
+{
+
+#define EVEN_ALTERNATE_MASK 0xAAAAAAAA
+#define ODD_ALTERNATE_MASK 0x55555555
+
+	int ans = 0;
+	unsigned int num = 0xAAAAAAAA; // 0101 0101 ...
+
+	ans |= !(num ^ EVEN_ALTERNATE_MASK);
+	ans |= !(num ^ ODD_ALTERNATE_MASK);
+
+	if (ans)
+		printf("num 0x%x has alternating bits\n", num);
+	else
+		printf("num 0x%x does not have alternating bits\n", num);
+}
+
 void test_shifts()
 {
 	printf("Testing shifts...\n\n");
@@ -521,12 +539,14 @@ int main()
 
 //	test_is_power_of_two();
 
-	test_find_longest_sequence_of_ones();
+//	test_find_longest_sequence_of_ones();
 
 	//TODO
 //	test_next_high_low_no_with_same_no_of_ones();
 
 //	test_shifts();
+
+	test_alternating_bits();
 
 	printf("\n\nExiting...\n\n");
 
