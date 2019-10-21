@@ -1,3 +1,7 @@
+/*
+* Bit Manipulation
+*/
+
 
 #include <stdio.h>
 
