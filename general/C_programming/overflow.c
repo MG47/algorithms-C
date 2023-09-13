@@ -25,10 +25,8 @@ int test_safe_multiply(int a, int b)
 	return a * b;
 }
 
-
 int main()
 {
-
 	int a, b, c;
 
 	/* Addition */

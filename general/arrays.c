@@ -186,6 +186,106 @@ void test_zero_matrix()
 	}
 }
 
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+
+void print_2DArr(int **arr, int R, int C)
+{
+    for (int i = 0; i < R; i++) {
+        for (int j = 0; j < C; j++) {
+            printf("%d ", arr[i][j]);
+        }
+	printf("\n");
+
+    }
+}
+
+void print_Arr(int *arr, int R, int C)
+{
+	for (int i = 0; i < R; i++) {
+		for (int j = 0; j < C; j++) {
+			printf("%d ", arr[i * C + j]);
+		}
+		printf("\n");
+	}
+}
+
+void test_twoD_matrix()
+{
+
+	int matrix[3][3] = {{1, 2, 3,}, {4, 5, 6}, {7, 8, 9}};
+	int matrix2[3][3] = {{1, 2, 3,}, {4, 5, 6}, {7, 8, 9}};
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			printf("%d ", matrix[i][j]);
+		}
+		printf("\n");
+	}
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			matrix2[j][i] = matrix[i][j];
+			printf("%d", matrix[i][j]);
+		}
+		printf("\n");
+	}
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			printf("%d ", matrix2[i][j]);
+		}
+		printf("\n");
+	}
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 1; j++)
+			swap(&matrix2[i][j], &matrix2[i][2 - j]);
+		}
+
+		for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			printf("%d ", matrix2[i][j]);
+		}
+		printf("\n");
+	}
+
+
+	printArr(matrix, 3, 3);
+
+
+	int *matrixSingle = (int *)malloc(sizeof(int) * 9);
+	if (!matrixSingle)
+		return 0;
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++)
+			matrixSingle[i * 3 + j]  = matrix[i][j];
+	}
+
+	int **twodArr = (int **)malloc(sizeof(int *) * 3);
+	for (int i = 0; i < 3; i++)
+		twodArr[i] = (int *)malloc(sizeof(int) * 3);
+
+
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			twodArr[i][j] = matrix[i][j];
+			printf("%d ", twodArr[i][j]);
+		}
+	}
+
+	print2DArr(twodArr, 3, 3);
+
+	return 0;
+}
+
+
 /*
 * Given an image represented by an NxN matrix, where each pixel in the image is 4
 * bytes,rotate the image by 90 degrees, in place.

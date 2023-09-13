@@ -25,6 +25,25 @@ void test_alternating_bits()
 		printf("num 0x%x does not have alternating bits\n", num);
 }
 
+void test_highest_power_2_less_equal_to_n()
+{
+	printf("Testing shifts...\n\n");
+
+	unsigned int n = 25 // highest power less than/equal to n => 16
+	unsigned int highest = 1;
+
+	for (unsigned int i = 1; i < n; i++) {
+		if ((1 << i) <=n) {
+			highest = n
+		}
+	}
+
+	printf("highest power of 2 less than equal to %u is %u\n", n, highest);
+
+	return;
+}
+
+
 void test_shifts()
 {
 	printf("Testing shifts...\n\n");
@@ -363,13 +382,12 @@ void test_swap_odd_even_bits()
 void test_endianeness()
 {
 	int num;
-	char c;
+	char *c;
 
 	num = 1;
+	c = (char *)&num;
 
-	c = (char)num;
-
-	if (c) {
+	if (*c) {
 		printf("System is little endian \n");
 	} else {
 		printf("System is big endian\n");

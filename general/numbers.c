@@ -5,6 +5,22 @@
 
 #include <string.h>
 
+void test_round_float()
+{
+	float num = 2.5534223445312;
+
+	// Round to two decimal
+	// 1) * 100 to get two more digits
+	// 2) typecast to int to chop off fraction
+	// 3) / 100 (float) to get the original number with two decimal places
+	// TODO: check if 37.77777777779 gets rounded to 37.78
+	float rounded_num = num;
+
+	rounded_num = (int)(num * 100 + 0.5) / (float)100;
+
+	printf("num = %f rounded num = %f\n", num, rounded_num);
+}
+
 char *strrev_custom(char *str)
 {
 	int i = 0, j, len = 0;
@@ -722,6 +738,8 @@ int main()
 
 // 	TODO
 //	test_get_power();
+
+	test_round_float();
 
 	printf("\n\nExiting...\n\n");
 
