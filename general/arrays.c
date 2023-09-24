@@ -8,6 +8,13 @@
 /* Utitlies */
 #define SIZEOF_ARR(arr) (sizeof(arr) / sizeof(arr[0]))
 
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
 void print_array(int *arr, int size)
 {
 	int i = 0;
@@ -186,14 +193,6 @@ void test_zero_matrix()
 	}
 }
 
-void swap(int *a, int *b)
-{
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-
 void print_2DArr(int **arr, int R, int C)
 {
     for (int i = 0; i < R; i++) {
@@ -301,8 +300,8 @@ void test_rotate_matrix()
 
 	int i, j;
 	int my_2d_arr[ROWS][COLUMNS] = {{1, 5, 88},
-					{1, 0, 37},
-					{2, 4, 0}};
+									{1, 0, 37},
+									{2, 4, 0}};
 
 	for (i = 0; i < ROWS; i++) {
 		for (j = 0; j < COLUMNS; j++) {
@@ -311,25 +310,17 @@ void test_rotate_matrix()
 		printf("\n");
 	}
 
-	int top_l, top_r, bottom_l, bottom_r;
-	int layer, layer_max, temp;
+	// Transpose the matrix and reverse the rows
+	for (i = 0; i < ROWS; i++) {
+		for (j = i; j < COLUMNS; j++) {
+			swap(&my_2d_arr[i][j], &my_2d_arr[j][i]);
+		}
+	}
 
-	layer = 0;
-	layer_max = (ROWS - 1) - layer;
-
-	top_l = 0;
-	top_r = 0;
-	bottom_l = ROWS - 1;
-	bottom_r = ROWS - 1;
-
-	// TODO : complete
-	for (i = layer; i <= layer_max; i++) {
-		temp = my_2d_arr[layer][top_l + i];
-
-		my_2d_arr[layer][top_l + i] = my_2d_arr[bottom_l - i][layer];
-		my_2d_arr[bottom_l - i][layer] = my_2d_arr[layer_max][bottom_r - i];
-		my_2d_arr[layer_max][bottom_r - i] = my_2d_arr[top_r + i][layer_max];
-		my_2d_arr[top_r + i][layer_max] = temp;
+	for (int i = 0; i < ROWS; i++) {
+		for (int j = 0; j < (COLUMNS / 2); j++) {
+			swap(&my_2d_arr[i][j], &my_2d_arr[i][COLUMNS - 1 - j]);
+		}
 	}
 
 	printf("\nArray after 90 right-rotation\n");

@@ -5,11 +5,34 @@
 
 #include <string.h>
 
-void test_round_float()
+
+
+/* =================== Rounding ======================== */
+
+#define DIV_ROUND_UP(n,d) (((n) + (d) - 1) / (d))
+void test_DIV_ROUND_UP()
+{
+	printf("Div & round-up  %d / %d = %d\n", 42, 5, DIV_ROUND_UP(42, 5));
+}
+
+void test_round_floating_pt_no()
+{
+	float num;
+	int no;
+
+	/* -3.6 -> -4, 3.6 -> 4 */
+	/* -3.2 -> -3, 3.2 -> 3 */
+	num = 3.2;
+
+	no = (num > 0) ? (int)(num + 0.5) : (int)(num - 0.5);
+	printf("rounded num is %d", no);
+}
+
+void test_round_float_two_decimals()
 {
 	float num = 2.5534223445312;
 
-	// Round to two decimal
+	// Round to two decimals
 	// 1) * 100 to get two more digits
 	// 2) typecast to int to chop off fraction
 	// 3) / 100 (float) to get the original number with two decimal places
@@ -21,7 +44,10 @@ void test_round_float()
 	printf("num = %f rounded num = %f\n", num, rounded_num);
 }
 
-char *strrev_custom(char *str)
+/* =================== Conversions ======================== */
+
+
+static char *strrev_custom(char *str)
 {
 	int i = 0, j, len = 0;
 
@@ -249,7 +275,7 @@ void test_swap_two_no_without_temp()
 
 #define SIZEOF_STRUCT(str) (((size_t)(&str + 1) - (size_t)(&str)))
 
-#define SIZEOF_ARRAY(arr) (size_t)(sizeof(arr) / sizeof(int))
+#define SIZEOF_ARRAY(arr) (size_t)(sizeof(arr) / sizeof(arr[0]))
 
 struct my_struct { 	// for 64bit Linux: 24bytes
 	int a; 		// 4
@@ -309,19 +335,6 @@ void test_of_macros()
 	/* ======================================================== */
 	/* sizeof array (int) test */
 	printf("\n\nsizeof array arr is %lu\n", SIZEOF_ARRAY(arr));
-}
-
-void test_round_floating_pt_no()
-{
-	float num;
-	int no;
-
-	/* -3.6 -> -4, 3.6 -> 4 */
-	/* -3.2 -> -3, 3.2 -> 3 */
-	num = 3.2;
-
-	no = (num > 0) ? (int)(num + 0.5) : (int)(num - 0.5);
-	printf("rounded num is %d", no);
 }
 
 void test_find_lcm()
@@ -606,6 +619,14 @@ void test_sum_of_digits()
 
 void test_modulo_remainder()
 {
+	/*
+	* The % operator in C is not the modulo operator but the remainder operator.
+	* Modulo and remainder operators differ with respect to negative values.
+	* With a remainder operator, the sign of the result is the same as the sign
+	* of the dividend while with a modulo operator the sign of the result
+	* is the same as the divisor.
+	*/
+
 	int a = 10;
 	int b = 4;
 
@@ -618,10 +639,10 @@ void test_modulo_remainder()
 	int g = -10;
 	int h = -4;
 
-	printf("a = %d, b = %d,  a (%) b= %d\n\n", a, b, a % b);
-	printf("c = %d, d = %d,  c (%) d= %d\n\n", c, d, c % d);
-	printf("e = %d, f = %d,  e (%) f= %d\n\n", e, f, e % f);
-	printf("g = %d, h = %d,  g (%) h= %d\n\n", g, h, g % h);
+	printf("a = %d, b = %d,  a (%) b= %d\n\n", a, b, a % b); // result is positive
+	printf("c = %d, d = %d,  c (%) d= %d\n\n", c, d, c % d); // result is negative
+	printf("e = %d, f = %d,  e (%) f= %d\n\n", e, f, e % f); // result is positive
+	printf("g = %d, h = %d,  g (%) h= %d\n\n", g, h, g % h); // result is negative
 }
 
 int rev_num_recur(int num)
@@ -708,7 +729,7 @@ int main()
 
 //	test_power_of_no();
 
-	test_power_of_no_recursion();
+//	test_power_of_no_recursion();
 
 //	test_largest_of_three_nums();
 
@@ -728,18 +749,22 @@ int main()
 
 //	test_find_lcm();
 
-//	test_round_floating_pt_no();
 
 //	test_of_macros();
 
 //	test_swap_two_no_without_temp();
 
-	test_do_conversions();
+//	test_do_conversions();
 
 // 	TODO
 //	test_get_power();
 
-	test_round_float();
+	test_round_float_two_decimals();
+
+	test_round_floating_pt_no();
+
+	test_DIV_ROUND_UP();
+
 
 	printf("\n\nExiting...\n\n");
 

@@ -366,14 +366,14 @@ void test_swap_two_bits()
 }
 
 
-#define EVAN_MASK 0xAAAA
+#define EVEN_MASK 0xAAAA
 #define ODD_MASK 0x5555
 void test_swap_odd_even_bits()
 {
 	int num, swap_no;
 	num = 0xAA; // 101010101, swap no  = 01010101(0x55)
 
-	swap_no = (num & EVAN_MASK) >> 1 | (num & ODD_MASK) << 1;
+	swap_no = (num & EVEN_MASK) >> 1 | (num & ODD_MASK) << 1;
 
 	printf("Original no = %x\n", num);
 	printf("Swapped no = %x\n", swap_no);
