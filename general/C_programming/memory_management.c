@@ -91,6 +91,31 @@ void test_aligned_malloc()
 	printf("aligned address %p\n\n", aligned_ptr);
 }
 
+void test_round_no_next_power_of_2()
+{
+	int count = 0;
+	int round = 0;
+
+	int num = 9; // round to 16
+	while (num) {
+		num >>= 1;
+		count++;
+	}
+	round = 1 << count;
+	printf("round %d to next power of 2  = %d\n", 9, round);
+
+	count = 0;
+	round = 0;
+	num = 16; // round to 32;
+	while (num) {
+		num >>= 1;
+		count++;
+	}
+
+	round = 1 << count;
+	printf("round %d to next power of 2  = %d\n", 16, round);
+}
+
 void test_round_no_to_n_bytes()
 {
 	int num, n;
@@ -128,7 +153,9 @@ int main()
 {
 	test_get_aligned_value();
 
-	test_round_no_to_n_bits();
+	test_round_no_to_n_bytes();
+
+	test_round_no_next_power_of_2();
 
 	test_aligned_malloc();
 

@@ -473,12 +473,24 @@ void test_square_root_floor_of_no()
 
 void test_subtract_two_no_without_subtraction_operator()
 {
-	int num1, num2, diff;
-	num1 = 10, num2 = 20;
+	int num1, num2, subtraction, carry;
+	num1 = 30, num2 = 13;
+	// Iterate till there
+	// is no carry
+	while (num2 != 0) {
+		// borrow contains common set bits of num2 and unset bits of num1
+		int borrow = (~num1) & num2;
 
-	/* TODO */
-	diff = num1 + ~num2 + 1;
-	printf("Difference is %d\n", diff);
+		// Subtraction of bits of num1 and num2 where at least one
+		// of the bits is not set
+		num1 = num1 ^ num2;
+
+		// Borrow is shifted by one so that subtracting it from
+		// num1 gives the required subtraction
+		num2 = borrow << 1;
+	}
+	subtraction = num1;
+	printf("Subtraction is %d\n", subtraction);
 }
 
 void test_add_two_no_without_addition_operator()

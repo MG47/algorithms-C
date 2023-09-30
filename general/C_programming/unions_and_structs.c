@@ -1,10 +1,29 @@
 /*
 * Program to study unions and structs in C
-* TODO : tagged unions, pointers to unions, union within struct
+* TODO : tagged unions, pointers to unions
 * typdef struct and unions
 */
 
 #include <stdio.h>
+#include <stdint.h>
+
+union word32 {
+	struct {
+		uint8_t byte4;
+		uint8_t byte3;
+		uint8_t byte2;
+		uint8_t byte1;
+	};
+	uint32_t num;
+};
+
+void test_union()
+{
+    union word32 wd;
+    wd.num = 0x12345678;
+
+    printf("byte 1 = %#x,  byte 2 = %#x, byte3 = %#x, byte4 = %#x\n", wd.byte1, wd.byte2, wd.byte3, wd.byte4);
+}
 
 struct cal {
 	int date;
@@ -18,9 +37,9 @@ union car {
 	int price;
 };
 
-int main()
+void test_struct_union()
 {
-	str1.date = 4;
+		str1.date = 4;
 
 	union car my_car;
 	my_car.precise_price = 23000.12;
@@ -30,15 +49,11 @@ int main()
 	my_car.price = 23000;
 
 	printf("Price of my car %d\n", my_car.price);
-
-
 	printf("Price of my car %f\n", my_car.precise_price);
-
 	printf("Size of union car %lu\n", sizeof(my_car));
 
 
 	// struct initialization
-
 	struct name {
 		unsigned int len;
 		char *str;
@@ -72,6 +87,15 @@ int main()
 	printf("Size of pkt %lu\n", sizeof(pkt));
 	printf("Size of pkt_ptr %lu\n", sizeof(pkt_ptr));
 	printf("Size of *pkt_ptr %lu\n", sizeof(*pkt_ptr));
+
+}
+
+int main()
+{
+
+	test_struct_union();
+
+	test_union();
 
 	return 0;
 }
