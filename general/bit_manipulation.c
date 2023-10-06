@@ -27,22 +27,26 @@ void test_alternating_bits()
 
 void test_highest_power_2_less_equal_to_n()
 {
-	printf("Testing shifts...\n\n");
+	// highest power less than/equal to num e.g num = 25 => 16
+	// num = 16 -> 16
 
-	unsigned int n = 25 // highest power less than/equal to n => 16
-	unsigned int highest = 1;
+	// Approach: find the leftmost set bit position
+	// and just keep that set bit (reset other bits)
+	unsigned int num = 25;
 
-	for (unsigned int i = 1; i < n; i++) {
-		if ((1 << i) <=n) {
-			highest = n
-		}
+	int pos = 0;
+	unsigned int n = num;
+	while (n) {
+		n >>= 1;
+		pos++;
 	}
 
-	printf("highest power of 2 less than equal to %u is %u\n", n, highest);
+	unsigned int pow = (pos == 0) ? num : (1 << (pos - 1));
+
+	printf("highest power of 2 less than equal to %u is %u\n", num, pow);
 
 	return;
 }
-
 
 void test_shifts()
 {
